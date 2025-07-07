@@ -11,40 +11,63 @@
       padding: 0;
       color: #333;
     }
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 40px 20px;
+
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #ffffffcc;
+      font-size: 14px;
+      font-weight: bold;
+      color: #4B0082;
     }
+
+    .header img {
+      height: 36px;
+      width: auto;
+      border-radius: 6px;
+      margin-right: 10px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
     h1 {
       text-align: center;
       color: #4B0082;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
-    .flex-sections {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .section {
+
+    details {
       background: #fff;
-      padding: 30px;
-      flex: 1 1 300px;
-      min-width: 280px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .section h2 {
-      text-align: center;
-      color: #4B0082;
       margin-bottom: 20px;
+      padding: 15px 20px;
     }
+
+    summary {
+      font-size: 18px;
+      font-weight: bold;
+      color: #4B0082;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .section-content {
+      margin-top: 15px;
+    }
+
     label {
       display: block;
       font-weight: bold;
       margin-top: 10px;
     }
+
     input[type="text"],
     input[type="email"],
     input[type="file"],
@@ -58,54 +81,65 @@
       border: 1px solid #ccc;
       border-radius: 6px;
     }
+
     button {
       background-color: #4B0082;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 10px 20px;
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
     }
+
     button:hover {
       background-color: #5f00a3;
     }
+
     #qrcode {
       text-align: center;
       margin-top: 20px;
     }
+
     .output {
-      margin-top: 20px;
       text-align: center;
+      margin-top: 20px;
     }
+
     footer {
       text-align: center;
-      margin-top: 50px;
       font-weight: bold;
+      margin-top: 50px;
       font-size: 18px;
       color: #4B0082;
     }
   </style>
 </head>
 <body>
+
+  <div class="header">
+    <img src="logo.jpg" alt="Դպրոցի լոգո">
+    Արմավիրի Վ․ Բախշյանի անվան թիվ 2 հիմն․ դպրոց
+  </div>
+
   <div class="container">
     <h1>QR Կոդ Գեներատոր</h1>
 
-    <div class="flex-sections">
-      <!-- Text Section -->
-      <div class="section">
-        <h2>Տեքստից ստանալ  QR Կոդ</h2>
-        <label for="plainText">Մուտքագրիր տեքստը</label>
+    <details>
+      <summary>Տեքստից ստանալ  QR Կոդ</summary>
+      <div class="section-content">
+        <label>Մուտքագրիր տեքստ</label>
         <textarea id="plainText" rows="4" placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"></textarea>
-        <label for="textColor">Ընտրիր գույն</label>
+        <label>Ընտրիր գույն</label>
         <input type="color" id="textColor" value="#000000">
         <button onclick="generateQRText()">Ստեղծել QR կոդ (տեքստ)</button>
       </div>
+    </details>
 
-      <!-- vCard Section -->
-      <div class="section">
-        <h2>Այցեքարտ (vCard)</h2>
+    <details>
+      <summary>Այցեքարտից ստանալ  (vCard)</summary>
+      <div class="section-content">
         <label>Անուն</label><input type="text" id="firstName">
         <label>Ազգանուն</label><input type="text" id="lastName">
         <label>Հեռախոս</label><input type="text" id="phone">
@@ -115,23 +149,22 @@
         <label>Ընտրիր գույն</label><input type="color" id="cardColor" value="#000000">
         <button onclick="generateQRCard()">Ստեղծել QR կոդ (քարտ)</button>
       </div>
+    </details>
 
-      <!-- File Section -->
-      <div class="section">
-        <h2>Ֆայլից ստանալ  QR Կոդ</h2>
+    <details>
+      <summary>Ֆայլից ստանալ QR Կոդ</summary>
+      <div class="section-content">
         <label>Ընտրիր ֆայլ</label><input type="file" id="fileInput">
         <label>Ընտրիր գույն</label><input type="color" id="fileColor" value="#000000">
         <button onclick="generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
       </div>
-    </div>
+    </details>
 
-    <!-- Output -->
     <div id="qrcode" class="output"></div>
     <div class="output">
       <button id="downloadBtn" style="display:none" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
     </div>
 
-    <!-- Footer -->
     <footer>
       ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
     </footer>
@@ -214,3 +247,4 @@
   </script>
 </body>
 </html>
+պ-
