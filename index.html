@@ -5,37 +5,68 @@
   <title>QR Կոդ Գեներատոր</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #f0f8ff, #e6e6ff);
       padding: 30px;
-      background-color: #f0f0f0;
-    }
-    h1 {
+      text-align: center;
       color: #333;
     }
-    input, button {
-      padding: 10px;
+
+    h1 {
+      font-size: 2em;
+      color: #4B0082;
+    }
+
+    input[type="text"], input[type="color"], button {
+      padding: 12px;
       font-size: 16px;
       width: 80%;
       max-width: 400px;
       margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
-    canvas {
+
+    button {
+      background-color: #4B0082;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #5f00a3;
+    }
+
+    #qrcode {
       margin-top: 20px;
     }
+
     #downloadBtn {
       display: none;
+      margin-top: 15px;
+    }
+
+    label {
+      display: block;
       margin-top: 10px;
     }
   </style>
 </head>
 <body>
   <h1>QR Կոդ Գեներատոր</h1>
+
   <input type="text" id="text" placeholder="Մուտքագրիր տեքստ կամ հղում">
+
+  <label for="color">Ընտրիր QR կոդի գույնը</label>
+  <input type="color" id="color" value="#000000">
+
   <br>
   <button onclick="generateQRCode()">Ստեղծել QR կոդ</button>
-  <br>
+
   <div id="qrcode"></div>
+
   <button id="downloadBtn" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -44,8 +75,10 @@
 
     function generateQRCode() {
       let qrDiv = document.getElementById("qrcode");
-      qrDiv.innerHTML = ""; // Մաքրում է հինը
+      qrDiv.innerHTML = "";
+
       let text = document.getElementById("text").value.trim();
+      let color = document.getElementById("color").value;
 
       if (text === "") {
         alert("Խնդրում եմ մուտքագրիր տեքստ կամ հղում։");
@@ -55,10 +88,11 @@
       qr = new QRCode(qrDiv, {
         text: text,
         width: 256,
-        height: 256
+        height: 256,
+        colorDark: color,
+        colorLight: "#ffffff"
       });
 
-      // Թույլատրել ներբեռնում
       setTimeout(() => {
         document.getElementById("downloadBtn").style.display = "inline-block";
       }, 500);
@@ -78,4 +112,3 @@
   </script>
 </body>
 </html>
-
