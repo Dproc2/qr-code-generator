@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Կոդ Գեներատոր</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+      background-color: #f8f8f8;
+    }
+    h1 {
+      color: #333;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      max-width: 400px;
+      margin: 10px 0;
+    }
+    canvas {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Կոդ Գեներատոր</h1>
+  <input type="text" id="text" placeholder="Մուտքագրիր տեքստ կամ հղում">
+  <br>
+  <button onclick="generateQRCode()">Ստեղծել QR կոդ</button>
+  <div id="qrcode"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    function generateQRCode() {
+      let qrDiv = document.getElementById("qrcode");
+      qrDiv.innerHTML = ""; // Մաքրում է հին QR-ը
+      let text = document.getElementById("text").value;
+      if (text.trim() === "") {
+        alert("Խնդրում եմ մուտքագրիր տեքստ կամ հղում։");
+        return;
+      }
+      new QRCode(qrDiv, {
+        text: text,
+        width: 256,
+        height: 256
+      });
+    }
+  </script>
+</body>
+</html>
