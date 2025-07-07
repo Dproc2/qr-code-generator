@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e0eafc 100%);
       margin: 0;
       padding: 0;
       color: #333;
@@ -17,7 +17,7 @@
       justify-content: flex-end;
       align-items: center;
       padding: 10px 30px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.9);
       font-size: 14px;
       font-weight: bold;
       color: #4B0082;
@@ -52,7 +52,7 @@
     details {
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       padding: 20px;
       border: 2px solid #4B0082;
       flex: 1 1 280px;
@@ -114,9 +114,20 @@
 
     #qrcode {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       margin-top: 30px;
       width: 100%;
+    }
+
+    #qrcode canvas {
+      margin-top: 10px;
+    }
+
+    .preview-label {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #4B0082;
     }
 
     .output {
@@ -128,13 +139,20 @@
     footer {
       text-align: right;
       font-weight: bold;
-      margin-top: 120px;
+      margin-top: 100px;
       font-size: 18px;
       color: #4B0082;
       padding-right: 30px;
       max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    .checkbox-option {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   </style>
 </head>
@@ -148,6 +166,7 @@
   <div class="container">
     <h1>QR Կոդ Գեներատոր</h1>
 
+    <!-- Բաժիններ -->
     <details>
       <summary>Տեքստից ստանալ QR Կոդ</summary>
       <div class="section-content">
@@ -192,11 +211,17 @@
         <button onclick="playClick(); generateQRUrl()">Ստեղծել QR կոդ (հղում)</button>
       </div>
     </details>
-
   </div>
 
-  <div id="qrcode" class="output"></div>
+  <!-- ✅ QR Preview + Border -->
   <div class="output">
+    <div class="checkbox-option">
+      <input type="checkbox" id="borderToggle">
+      <label for="borderToggle">Շրջանակել QR կոդը</label>
+    </div>
+    <div id="qrcode">
+      <div class="preview-label" id="previewLabel" style="display:none">Նախադիտում</div>
+    </div>
     <button id="downloadBtn" style="display:none" onclick="playClick(); downloadQRCode()">Ներբեռնել QR կոդը</button>
   </div>
 
@@ -204,7 +229,7 @@
     ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
   </footer>
 
-  <!-- 🎵 Ձայնային էֆեկտ -->
+  <!-- 🔊 Ձայն -->
   <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -216,20 +241,37 @@
     }
 
     function clearQR() {
-      document.getElementById("qrcode").innerHTML = "";
+      const container = document.getElementById("qrcode");
+      container.innerHTML = '<div class="preview-label" id="previewLabel">Նախադիտում</div>';
       document.getElementById("downloadBtn").style.display = "none";
     }
 
     function showQR(content, color) {
       clearQR();
       const container = document.getElementById("qrcode");
-      new QRCode(container, {
+      const previewLabel = document.getElementById("previewLabel");
+      previewLabel.style.display = "block";
+
+      const borderOn = document.getElementById("borderToggle").checked;
+
+      const qrWrapper = document.createElement("div");
+      if (borderOn) {
+        qrWrapper.style.border = "4px solid #4B0082";
+        qrWrapper.style.padding = "10px";
+        qrWrapper.style.borderRadius = "12px";
+        qrWrapper.style.background = "white";
+      }
+
+      container.appendChild(qrWrapper);
+
+      new QRCode(qrWrapper, {
         text: content,
         width: 300,
         height: 300,
         colorDark: color || "#000000",
         colorLight: "#ffffff"
       });
+
       setTimeout(() => {
         document.getElementById("downloadBtn").style.display = "inline-block";
       }, 500);
@@ -238,10 +280,7 @@
     function generateQRText() {
       const text = document.getElementById("plainText").value.trim();
       const color = document.getElementById("textColor").value;
-      if (!text) {
-        alert("Մուտքագրեք տեքստ։");
-        return;
-      }
+      if (!text) return alert("Մուտքագրեք տեքստ։");
       showQR(text, color);
     }
 
@@ -255,8 +294,7 @@
       const color = document.getElementById("cardColor").value;
 
       if (!fn || !ln || !phone || !email) {
-        alert("Խնդրում ենք լրացնել Անուն, Ազգանուն, Հեռախոս և Էլ․ հասցե։");
-        return;
+        return alert("Խնդրում ենք լրացնել Անուն, Ազգանուն, Հեռախոս և Էլ․ հասցե։");
       }
 
       const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\nORG:${org}\nTEL;TYPE=cell:${phone}\nEMAIL:${email}\n${site ? `URL:${site}\n` : ""}END:VCARD`;
@@ -266,10 +304,8 @@
     function generateQRFile() {
       const file = document.getElementById("fileInput").files[0];
       const color = document.getElementById("fileColor").value;
-      if (!file) {
-        alert("Խնդրում ենք ընտրել ֆայլ։");
-        return;
-      }
+      if (!file) return alert("Խնդրում ենք ընտրել ֆայլ։");
+
       const reader = new FileReader();
       reader.onload = function(e) {
         const dataUrl = e.target.result;
@@ -282,8 +318,7 @@
       const url = document.getElementById("urlInput").value.trim();
       const color = document.getElementById("urlColor").value;
       if (!url || !/^https?:\/\//.test(url)) {
-        alert("Խնդրում ենք մուտքագրել վավեր հղում (օրինակ՝ https://example.com)");
-        return;
+        return alert("Մուտքագրեք վավեր հղում (օր.՝ https://example.com)");
       }
       showQR(url, color);
     }
@@ -300,4 +335,3 @@
   </script>
 </body>
 </html>
-
