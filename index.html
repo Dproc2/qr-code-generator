@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #f5f7fa, #dfe9f3);
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
       margin: 0;
       padding: 0;
       color: #333;
@@ -17,7 +17,7 @@
       justify-content: flex-end;
       align-items: center;
       padding: 10px 30px;
-      background-color: #ffffffcc;
+      background-color: rgba(255, 255, 255, 0.8);
       font-size: 14px;
       font-weight: bold;
       color: #4B0082;
@@ -31,9 +31,9 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
-      padding: 30px 20px;
+      padding: 40px 20px;
       display: flex;
       gap: 20px;
       justify-content: center;
@@ -43,21 +43,25 @@
     h1 {
       text-align: center;
       color: #4B0082;
-      margin-bottom: 30px;
-      font-size: 36px;
-      font-weight: 900;
+      margin-bottom: 40px;
+      font-size: 40px;
+      font-weight: normal; /* հանված է հաստությունը */
       width: 100%;
     }
 
     details {
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      padding: 15px 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      padding: 20px;
       border: 2px solid #4B0082;
       flex: 1 1 280px;
-      max-width: 280px;
+      max-width: 300px;
+      transition: transform 0.2s ease;
+    }
+
+    details:hover {
+      transform: translateY(-5px);
     }
 
     summary {
@@ -110,7 +114,7 @@
 
     #qrcode {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 30px;
       width: 100%;
     }
 
@@ -123,11 +127,11 @@
     footer {
       text-align: right;
       font-weight: bold;
-      margin-top: 100px;
+      margin-top: 120px;
       font-size: 18px;
       color: #4B0082;
       padding-right: 30px;
-      max-width: 900px;
+      max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -136,7 +140,7 @@
 <body>
 
   <div class="header">
-    <img src="logo.jpg" alt="Դպրոցի լոգո">
+    
     Արմավիրի Վ․ Բախշյանի անվան թիվ 2 հիմն․ դպրոց
   </div>
 
