@@ -31,7 +31,7 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: auto;
       padding: 40px 20px;
       display: flex;
@@ -132,7 +132,7 @@
       font-size: 18px;
       color: #4B0082;
       padding-right: 30px;
-      max-width: 1000px;
+      max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -141,7 +141,7 @@
 <body>
 
   <div class="header">
-   
+    
     Արմավիրի Վ․ Բախշյանի անվան թիվ 2 հիմն․ դպրոց
   </div>
 
@@ -181,6 +181,18 @@
         <button onclick="playClick(); generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
       </div>
     </details>
+
+    <details>
+      <summary>Հղումից ստանալ QR Կոդ</summary>
+      <div class="section-content">
+        <label>Մուտքագրիր հղումը</label>
+        <input type="text" id="urlInput" placeholder="օր.՝ https://example.com">
+        <label>Ընտրիր գույն</label>
+        <input type="color" id="urlColor" value="#000000">
+        <button onclick="playClick(); generateQRUrl()">Ստեղծել QR կոդ (հղում)</button>
+      </div>
+    </details>
+
   </div>
 
   <div id="qrcode" class="output"></div>
@@ -192,7 +204,7 @@
     ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
   </footer>
 
-  <!-- 🎵 Հնչյունի ֆայլ -->
+  <!-- 🎵 Ձայնային էֆեկտ -->
   <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -266,6 +278,16 @@
       reader.readAsDataURL(file);
     }
 
+    function generateQRUrl() {
+      const url = document.getElementById("urlInput").value.trim();
+      const color = document.getElementById("urlColor").value;
+      if (!url || !/^https?:\/\//.test(url)) {
+        alert("Խնդրում ենք մուտքագրել վավեր հղում (օրինակ՝ https://example.com)");
+        return;
+      }
+      showQR(url, color);
+    }
+
     function downloadQRCode() {
       const canvas = document.querySelector("#qrcode canvas");
       if (canvas) {
@@ -278,3 +300,4 @@
   </script>
 </body>
 </html>
+
