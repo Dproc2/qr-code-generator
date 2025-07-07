@@ -2,7 +2,7 @@
 <html lang="hy">
 <head>
   <meta charset="UTF-8">
-  <title>QR Կոդ Գեներատոր ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ</title>
+  <title>QR Կոդ Գեներատոր</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
@@ -12,7 +12,7 @@
       color: #333;
     }
     .container {
-      max-width: 900px;
+      max-width: 1200px;
       margin: auto;
       padding: 40px 20px;
     }
@@ -21,10 +21,17 @@
       color: #4B0082;
       margin-bottom: 40px;
     }
+    .flex-sections {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
     .section {
       background: #fff;
       padding: 30px;
-      margin-bottom: 40px;
+      flex: 1 1 300px;
+      min-width: 280px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
@@ -72,37 +79,50 @@
       margin-top: 20px;
       text-align: center;
     }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #4B0082;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>QR Կոդ Գեներատոր</h1>
 
-    <!-- Text Section -->
-    <div class="section">
-      <h2>Տեքստից ստանալ QR Կոդ</h2>
-      <label for="plainText">Մուտքագրիր տեքստ</label>
-      <textarea id="plainText" rows="4" placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"></textarea>
-      <button onclick="generateQRText()">Ստեղծել QR կոդ (տեքստ)</button>
-    </div>
+    <div class="flex-sections">
+      <!-- Text Section -->
+      <div class="section">
+        <h2>Տեքստից QR Կոդ</h2>
+        <label for="plainText">Մուտքագրիր տեքստ</label>
+        <textarea id="plainText" rows="4" placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"></textarea>
+        <label for="textColor">Ընտրիր գույն</label>
+        <input type="color" id="textColor" value="#000000">
+        <button onclick="generateQRText()">Ստեղծել QR կոդ (տեքստ)</button>
+      </div>
 
-    <!-- vCard Section -->
-    <div class="section">
-      <h2>Այցեքարտ (vCard)</h2>
-      <label>Անուն</label><input type="text" id="firstName">
-      <label>Ազգանուն</label><input type="text" id="lastName">
-      <label>Հեռախոս</label><input type="text" id="phone">
-      <label>Էլ․ հասցե</label><input type="email" id="email">
-      <label>Կազմակերպություն</label><input type="text" id="org">
-      <label>Վեբկայք</label><input type="text" id="website">
-      <button onclick="generateQRCard()">Ստեղծել QR կոդ (քարտ)</button>
-    </div>
+      <!-- vCard Section -->
+      <div class="section">
+        <h2>Այցեքարտ (vCard)</h2>
+        <label>Անուն</label><input type="text" id="firstName">
+        <label>Ազգանուն</label><input type="text" id="lastName">
+        <label>Հեռախոս</label><input type="text" id="phone">
+        <label>Էլ․ հասցե</label><input type="email" id="email">
+        <label>Կազմակերպություն</label><input type="text" id="org">
+        <label>Վեբկայք</label><input type="text" id="website">
+        <label>Ընտրիր գույն</label><input type="color" id="cardColor" value="#000000">
+        <button onclick="generateQRCard()">Ստեղծել QR կոդ (քարտ)</button>
+      </div>
 
-    <!-- File Section -->
-    <div class="section">
-      <h2>Ֆայլից ստանալ  QR Կոդ (նկար, փաստաթուղթ, երգ և այլն)</h2>
-      <label>Ընտրիր ֆայլ</label><input type="file" id="fileInput">
-      <button onclick="generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
+      <!-- File Section -->
+      <div class="section">
+        <h2>Ֆայլից QR Կոդ</h2>
+        <label>Ընտրիր ֆայլ</label><input type="file" id="fileInput">
+        <label>Ընտրիր գույն</label><input type="color" id="fileColor" value="#000000">
+        <button onclick="generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
+      </div>
     </div>
 
     <!-- Output -->
@@ -110,6 +130,11 @@
     <div class="output">
       <button id="downloadBtn" style="display:none" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
     </div>
+
+    <!-- Footer -->
+    <footer>
+      ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
+    </footer>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -119,14 +144,14 @@
       document.getElementById("downloadBtn").style.display = "none";
     }
 
-    function showQR(content) {
+    function showQR(content, color) {
       clearQR();
       const container = document.getElementById("qrcode");
-      const qr = new QRCode(container, {
+      new QRCode(container, {
         text: content,
         width: 256,
         height: 256,
-        colorDark: "#000000",
+        colorDark: color || "#000000",
         colorLight: "#ffffff"
       });
       setTimeout(() => {
@@ -136,11 +161,12 @@
 
     function generateQRText() {
       const text = document.getElementById("plainText").value.trim();
+      const color = document.getElementById("textColor").value;
       if (!text) {
         alert("Մուտքագրեք տեքստ։");
         return;
       }
-      showQR(text);
+      showQR(text, color);
     }
 
     function generateQRCard() {
@@ -150,16 +176,20 @@
       const email = document.getElementById("email").value.trim();
       const org = document.getElementById("org").value.trim();
       const site = document.getElementById("website").value.trim();
+      const color = document.getElementById("cardColor").value;
+
       if (!fn || !ln || !phone || !email) {
         alert("Խնդրում ենք լրացնել Անուն, Ազգանուն, Հեռախոս և Էլ․ հասցե։");
         return;
       }
+
       const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\nORG:${org}\nTEL;TYPE=cell:${phone}\nEMAIL:${email}\n${site ? `URL:${site}\n` : ""}END:VCARD`;
-      showQR(vcard);
+      showQR(vcard, color);
     }
 
     function generateQRFile() {
       const file = document.getElementById("fileInput").files[0];
+      const color = document.getElementById("fileColor").value;
       if (!file) {
         alert("Խնդրում ենք ընտրել ֆայլ։");
         return;
@@ -167,7 +197,7 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         const dataUrl = e.target.result;
-        showQR(dataUrl);
+        showQR(dataUrl, color);
       };
       reader.readAsDataURL(file);
     }
