@@ -166,7 +166,7 @@
     <h1>QR Կոդ Գեներատոր</h1>
 
     <details>
-      <summary>Տեքստից ստանալ QR Կոդ</summary>
+      <summary>Տեքստ</summary>
       <div class="section-content">
         <label>Մուտքագրիր տեքստ</label>
         <textarea
@@ -199,21 +199,10 @@
       </div>
     </details>
 
-    <details>
-      <summary>Ֆայլից ստանալ QR Կոդ (Base64 չէ)</summary>
-      <div class="section-content">
-        <label>Ընտրիր ֆայլ</label>
-        <input type="file" id="fileInput" />
-        <label>Ընտրիր գույն</label>
-        <input type="color" id="fileColor" value="#000000" />
-        <button onclick="playClick(); generateQRFile()">
-          Ստեղծել QR կոդ (ֆայլ)
-        </button>
-      </div>
-    </details>
+    
 
     <details>
-      <summary>Հղումից ստանալ QR Կոդ</summary>
+      <summary>Հղում</summary>
       <div class="section-content">
         <label>Մուտքագրիր հղումը</label>
         <input
@@ -229,39 +218,7 @@
       </div>
     </details>
 
-    <details>
-      <summary>Վերբեռնել Ֆայլ և Ստանալ QR Կոդ (file.io)</summary>
-      <div class="section-content">
-        <label>Ընտրիր ֆայլ (PDF, նկար, վիդեո...)</label>
-        <input type="file" id="uploadFile" />
-        <label>Ընտրիր գույն</label>
-        <input type="color" id="uploadColor" value="#000000" />
-        <button onclick="playClick(); uploadAndGenerateQR()">
-          Վերբեռնել և Ստեղծել QR կոդ
-        </button>
-      </div>
-    </details>
-  </div>
-
-  <div class="output">
-    <div class="checkbox-option">
-      <input type="checkbox" id="borderToggle" />
-      <label for="borderToggle">Շրջանակել QR կոդը</label>
-    </div>
-    <div id="qrcode">
-      <div class="preview-label" id="previewLabel" style="display:none">
-        Նախադիտում
-      </div>
-    </div>
-    <button
-      id="downloadBtn"
-      style="display:none"
-      onclick="playClick(); downloadQRCode()"
-    >
-      Ներբեռնել QR կոդը
-    </button>
-  </div>
-
+   
   <footer>ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ</footer>
 
   <audio
