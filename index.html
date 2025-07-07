@@ -45,7 +45,7 @@
       color: #4B0082;
       margin-bottom: 40px;
       font-size: 40px;
-      font-weight: normal; /* հանված է հաստությունը */
+      font-weight: normal;
       width: 100%;
     }
 
@@ -113,7 +113,8 @@
     }
 
     #qrcode {
-      text-align: center;
+      display: flex;
+      justify-content: center;
       margin-top: 30px;
       width: 100%;
     }
@@ -140,7 +141,7 @@
 <body>
 
   <div class="header">
-    
+   
     Արմավիրի Վ․ Բախշյանի անվան թիվ 2 հիմն․ դպրոց
   </div>
 
@@ -154,7 +155,7 @@
         <textarea id="plainText" rows="4" placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"></textarea>
         <label>Ընտրիր գույն</label>
         <input type="color" id="textColor" value="#000000">
-        <button onclick="generateQRText()">Ստեղծել QR կոդ (տեքստ)</button>
+        <button onclick="playClick(); generateQRText()">Ստեղծել QR կոդ (տեքստ)</button>
       </div>
     </details>
 
@@ -168,7 +169,7 @@
         <label>Կազմակերպություն</label><input type="text" id="org">
         <label>Վեբկայք</label><input type="text" id="website">
         <label>Ընտրիր գույն</label><input type="color" id="cardColor" value="#000000">
-        <button onclick="generateQRCard()">Ստեղծել QR կոդ (քարտ)</button>
+        <button onclick="playClick(); generateQRCard()">Ստեղծել QR կոդ (քարտ)</button>
       </div>
     </details>
 
@@ -177,22 +178,31 @@
       <div class="section-content">
         <label>Ընտրիր ֆայլ</label><input type="file" id="fileInput">
         <label>Ընտրիր գույն</label><input type="color" id="fileColor" value="#000000">
-        <button onclick="generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
+        <button onclick="playClick(); generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
       </div>
     </details>
   </div>
 
   <div id="qrcode" class="output"></div>
   <div class="output">
-    <button id="downloadBtn" style="display:none" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
+    <button id="downloadBtn" style="display:none" onclick="playClick(); downloadQRCode()">Ներբեռնել QR կոդը</button>
   </div>
 
   <footer>
     ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
   </footer>
 
+  <!-- 🎵 Հնչյունի ֆայլ -->
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
+    function playClick() {
+      const sound = document.getElementById("clickSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
     function clearQR() {
       document.getElementById("qrcode").innerHTML = "";
       document.getElementById("downloadBtn").style.display = "none";
@@ -203,8 +213,8 @@
       const container = document.getElementById("qrcode");
       new QRCode(container, {
         text: content,
-        width: 256,
-        height: 256,
+        width: 300,
+        height: 300,
         colorDark: color || "#000000",
         colorLight: "#ffffff"
       });
