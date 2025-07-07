@@ -8,7 +8,7 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 30px;
-      background-color: #f8f8f8;
+      background-color: #f0f0f0;
     }
     h1 {
       color: #333;
@@ -23,6 +23,10 @@
     canvas {
       margin-top: 20px;
     }
+    #downloadBtn {
+      display: none;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -30,24 +34,48 @@
   <input type="text" id="text" placeholder="Մուտքագրիր տեքստ կամ հղում">
   <br>
   <button onclick="generateQRCode()">Ստեղծել QR կոդ</button>
+  <br>
   <div id="qrcode"></div>
+  <button id="downloadBtn" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
+    let qr;
+
     function generateQRCode() {
       let qrDiv = document.getElementById("qrcode");
-      qrDiv.innerHTML = ""; // Մաքրում է հին QR-ը
-      let text = document.getElementById("text").value;
-      if (text.trim() === "") {
+      qrDiv.innerHTML = ""; // Մաքրում է հինը
+      let text = document.getElementById("text").value.trim();
+
+      if (text === "") {
         alert("Խնդրում եմ մուտքագրիր տեքստ կամ հղում։");
         return;
       }
-      new QRCode(qrDiv, {
+
+      qr = new QRCode(qrDiv, {
         text: text,
         width: 256,
         height: 256
       });
+
+      // Թույլատրել ներբեռնում
+      setTimeout(() => {
+        document.getElementById("downloadBtn").style.display = "inline-block";
+      }, 500);
+    }
+
+    function downloadQRCode() {
+      const img = document.querySelector("#qrcode img") || document.querySelector("#qrcode canvas");
+      if (img) {
+        let link = document.createElement("a");
+        link.download = "qr_code.png";
+        link.href = img.src || img.toDataURL("image/png");
+        link.click();
+      } else {
+        alert("Սկզբում ստեղծիր QR կոդ։");
+      }
     }
   </script>
 </body>
 </html>
+
