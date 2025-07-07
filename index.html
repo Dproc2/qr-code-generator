@@ -34,12 +34,19 @@
       max-width: 900px;
       margin: auto;
       padding: 30px 20px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     h1 {
       text-align: center;
       color: #4B0082;
       margin-bottom: 30px;
+      font-size: 36px;
+      font-weight: 900;
+      width: 100%;
     }
 
     details {
@@ -48,6 +55,9 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-bottom: 20px;
       padding: 15px 20px;
+      border: 2px solid #4B0082;
+      flex: 1 1 280px;
+      max-width: 280px;
     }
 
     summary {
@@ -91,6 +101,7 @@
       border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
@@ -100,26 +111,32 @@
     #qrcode {
       text-align: center;
       margin-top: 20px;
+      width: 100%;
     }
 
     .output {
       text-align: center;
       margin-top: 20px;
+      width: 100%;
     }
 
     footer {
-      text-align: center;
+      text-align: right;
       font-weight: bold;
-      margin-top: 50px;
+      margin-top: 100px;
       font-size: 18px;
       color: #4B0082;
+      padding-right: 30px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <img src="logo.jpg" alt="logo.jpg">
+    <img src="logo.jpg" alt="Դպրոցի լոգո">
     Արմավիրի Վ․ Բախշյանի անվան թիվ 2 հիմն․ դպրոց
   </div>
 
@@ -127,7 +144,7 @@
     <h1>QR Կոդ Գեներատոր</h1>
 
     <details>
-      <summary>Տեքստից ստանալ  QR Կոդ</summary>
+      <summary>Տեքստից ստանալ QR Կոդ</summary>
       <div class="section-content">
         <label>Մուտքագրիր տեքստ</label>
         <textarea id="plainText" rows="4" placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"></textarea>
@@ -138,7 +155,7 @@
     </details>
 
     <details>
-      <summary>Այցեքարտից ստանալ  (vCard)</summary>
+      <summary>Այցեքարտ (vCard)</summary>
       <div class="section-content">
         <label>Անուն</label><input type="text" id="firstName">
         <label>Ազգանուն</label><input type="text" id="lastName">
@@ -159,16 +176,16 @@
         <button onclick="generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
       </div>
     </details>
-
-    <div id="qrcode" class="output"></div>
-    <div class="output">
-      <button id="downloadBtn" style="display:none" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
-    </div>
-
-    <footer>
-      ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
-    </footer>
   </div>
+
+  <div id="qrcode" class="output"></div>
+  <div class="output">
+    <button id="downloadBtn" style="display:none" onclick="downloadQRCode()">Ներբեռնել QR կոդը</button>
+  </div>
+
+  <footer>
+    ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
+  </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
@@ -247,4 +264,3 @@
   </script>
 </body>
 </html>
-պ-
