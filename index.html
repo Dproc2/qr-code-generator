@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>QR Կոդ Գեներատոր</title>
   <style>
     body {
@@ -157,47 +157,58 @@
   </style>
 </head>
 <body>
-
   <div class="header">
-    
+   
     Արմավիրի Վ․ Բախշյանի անվան թիվ 2 հիմն․ դպրոց
   </div>
 
   <div class="container">
     <h1>QR Կոդ Գեներատոր</h1>
 
-    <!-- Բաժիններ -->
     <details>
       <summary>Տեքստից ստանալ QR Կոդ</summary>
       <div class="section-content">
         <label>Մուտքագրիր տեքստ</label>
-        <textarea id="plainText" rows="4" placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"></textarea>
+        <textarea
+          id="plainText"
+          rows="4"
+          placeholder="Ձեր հաղորդագրությունը կամ տեղեկությունը"
+        ></textarea>
         <label>Ընտրիր գույն</label>
-        <input type="color" id="textColor" value="#000000">
-        <button onclick="playClick(); generateQRText()">Ստեղծել QR կոդ (տեքստ)</button>
+        <input type="color" id="textColor" value="#000000" />
+        <button onclick="playClick(); generateQRText()">
+          Ստեղծել QR կոդ (տեքստ)
+        </button>
       </div>
     </details>
 
     <details>
       <summary>Այցեքարտ (vCard)</summary>
       <div class="section-content">
-        <label>Անուն</label><input type="text" id="firstName">
-        <label>Ազգանուն</label><input type="text" id="lastName">
-        <label>Հեռախոս</label><input type="text" id="phone">
-        <label>Էլ․ հասցե</label><input type="email" id="email">
-        <label>Կազմակերպություն</label><input type="text" id="org">
-        <label>Վեբկայք</label><input type="text" id="website">
-        <label>Ընտրիր գույն</label><input type="color" id="cardColor" value="#000000">
-        <button onclick="playClick(); generateQRCard()">Ստեղծել QR կոդ (քարտ)</button>
+        <label>Անուն</label><input type="text" id="firstName" />
+        <label>Ազգանուն</label><input type="text" id="lastName" />
+        <label>Հեռախոս</label><input type="text" id="phone" />
+        <label>Էլ․ հասցե</label><input type="email" id="email" />
+        <label>Կազմակերպություն</label><input type="text" id="org" />
+        <label>Վեբկայք</label><input type="text" id="website" />
+        <label>Ընտրիր գույն</label>
+        <input type="color" id="cardColor" value="#000000" />
+        <button onclick="playClick(); generateQRCard()">
+          Ստեղծել QR կոդ (քարտ)
+        </button>
       </div>
     </details>
 
     <details>
-      <summary>Ֆայլից ստանալ QR Կոդ</summary>
+      <summary>Ֆայլից ստանալ QR Կոդ (Base64 չէ)</summary>
       <div class="section-content">
-        <label>Ընտրիր ֆայլ</label><input type="file" id="fileInput">
-        <label>Ընտրիր գույն</label><input type="color" id="fileColor" value="#000000">
-        <button onclick="playClick(); generateQRFile()">Ստեղծել QR կոդ (ֆայլ)</button>
+        <label>Ընտրիր ֆայլ</label>
+        <input type="file" id="fileInput" />
+        <label>Ընտրիր գույն</label>
+        <input type="color" id="fileColor" value="#000000" />
+        <button onclick="playClick(); generateQRFile()">
+          Ստեղծել QR կոդ (ֆայլ)
+        </button>
       </div>
     </details>
 
@@ -205,32 +216,59 @@
       <summary>Հղումից ստանալ QR Կոդ</summary>
       <div class="section-content">
         <label>Մուտքագրիր հղումը</label>
-        <input type="text" id="urlInput" placeholder="օր.՝ https://example.com">
+        <input
+          type="text"
+          id="urlInput"
+          placeholder="օր.՝ https://example.com"
+        />
         <label>Ընտրիր գույն</label>
-        <input type="color" id="urlColor" value="#000000">
-        <button onclick="playClick(); generateQRUrl()">Ստեղծել QR կոդ (հղում)</button>
+        <input type="color" id="urlColor" value="#000000" />
+        <button onclick="playClick(); generateQRUrl()">
+          Ստեղծել QR կոդ (հղում)
+        </button>
+      </div>
+    </details>
+
+    <details>
+      <summary>Վերբեռնել Ֆայլ և Ստանալ QR Կոդ (file.io)</summary>
+      <div class="section-content">
+        <label>Ընտրիր ֆայլ (PDF, նկար, վիդեո...)</label>
+        <input type="file" id="uploadFile" />
+        <label>Ընտրիր գույն</label>
+        <input type="color" id="uploadColor" value="#000000" />
+        <button onclick="playClick(); uploadAndGenerateQR()">
+          Վերբեռնել և Ստեղծել QR կոդ
+        </button>
       </div>
     </details>
   </div>
 
-  <!-- ✅ QR Preview + Border -->
   <div class="output">
     <div class="checkbox-option">
-      <input type="checkbox" id="borderToggle">
+      <input type="checkbox" id="borderToggle" />
       <label for="borderToggle">Շրջանակել QR կոդը</label>
     </div>
     <div id="qrcode">
-      <div class="preview-label" id="previewLabel" style="display:none">Նախադիտում</div>
+      <div class="preview-label" id="previewLabel" style="display:none">
+        Նախադիտում
+      </div>
     </div>
-    <button id="downloadBtn" style="display:none" onclick="playClick(); downloadQRCode()">Ներբեռնել QR կոդը</button>
+    <button
+      id="downloadBtn"
+      style="display:none"
+      onclick="playClick(); downloadQRCode()"
+    >
+      Ներբեռնել QR կոդը
+    </button>
   </div>
 
-  <footer>
-    ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ
-  </footer>
+  <footer>ԹԳՀԳ ՆԱԽԱԳԾԱՅԻՆ ԱՇԽԱՏԱՆՔ</footer>
 
-  <!-- 🔊 Ձայն -->
-  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+  <audio
+    id="clickSound"
+    src="https://www.soundjay.com/buttons/sounds/button-16.mp3"
+    preload="auto"
+  ></audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
@@ -242,7 +280,8 @@
 
     function clearQR() {
       const container = document.getElementById("qrcode");
-      container.innerHTML = '<div class="preview-label" id="previewLabel">Նախադիտում</div>';
+      container.innerHTML =
+        '<div class="preview-label" id="previewLabel">Նախադիտում</div>';
       document.getElementById("downloadBtn").style.display = "none";
     }
 
@@ -269,7 +308,7 @@
         width: 300,
         height: 300,
         colorDark: color || "#000000",
-        colorLight: "#ffffff"
+        colorLight: "#ffffff",
       });
 
       setTimeout(() => {
@@ -294,10 +333,14 @@
       const color = document.getElementById("cardColor").value;
 
       if (!fn || !ln || !phone || !email) {
-        return alert("Խնդրում ենք լրացնել Անուն, Ազգանուն, Հեռախոս և Էլ․ հասցե։");
+        return alert(
+          "Խնդրում ենք լրացնել Անուն, Ազգանուն, Հեռախոս և Էլ․ հասցե։"
+        );
       }
 
-      const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\nORG:${org}\nTEL;TYPE=cell:${phone}\nEMAIL:${email}\n${site ? `URL:${site}\n` : ""}END:VCARD`;
+      const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\nORG:${org}\nTEL;TYPE=cell:${phone}\nEMAIL:${email}\n${
+        site ? `URL:${site}\n` : ""
+      }END:VCARD`;
       showQR(vcard, color);
     }
 
@@ -307,7 +350,7 @@
       if (!file) return alert("Խնդրում ենք ընտրել ֆայլ։");
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const dataUrl = e.target.result;
         showQR(dataUrl, color);
       };
@@ -321,6 +364,38 @@
         return alert("Մուտքագրեք վավեր հղում (օր.՝ https://example.com)");
       }
       showQR(url, color);
+    }
+
+    async function uploadAndGenerateQR() {
+      const fileInput = document.getElementById("uploadFile");
+      const color = document.getElementById("uploadColor").value;
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Խնդրում ենք ընտրել ֆայլ։");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch("https://file.io/?expires=1d", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          showQR(data.link, color);
+        } else {
+          alert("Ֆայլի վերբեռնումը ձախողվեց։");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Տեղի ունեցավ սխալ ֆայլի վերբեռնման ժամանակ։");
+      }
     }
 
     function downloadQRCode() {
