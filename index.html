@@ -19,18 +19,26 @@
       user-select: none;
     }
     .accordion {
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .section {
       background: white;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
-      overflow: hidden;
+      flex: 1 1 45%;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e0e0e0;
+      transition: margin-bottom 0.3s ease;
     }
-    .section {
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .section:last-child {
-      border-bottom: none;
+    .section.open {
+      margin-bottom: 40px;
     }
     .header {
       background-color: #007bff;
@@ -43,6 +51,7 @@
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.3s ease;
+      border-radius: 8px 8px 0 0;
     }
     .header:hover {
       background-color: #0056b3;
@@ -60,9 +69,11 @@
     .content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease;
+      transition: max-height 0.4s ease, padding 0.4s ease;
       padding: 0 20px;
       background: #f9fbfd;
+      border-radius: 0 0 8px 8px;
+      flex-grow: 1;
     }
     .content.open {
       padding: 20px;
@@ -99,6 +110,7 @@
       margin-top: 15px;
       transition: background-color 0.3s ease;
       user-select: none;
+      align-self: flex-start;
     }
     button:hover {
       background-color: #0056b3;
@@ -108,22 +120,49 @@
       display: flex;
       justify-content: center;
     }
-    .guide {
-      max-width: 600px;
-      margin: 40px auto 0;
-      background: #e9f0ff;
-      border-left: 6px solid #007bff;
-      padding: 20px;
-      font-size: 0.9rem;
-      color: #003366;
-      line-height: 1.5;
-      border-radius: 6px;
+    /* Ուղեցույցի հատուկ ոճ */
+    .guide-container {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: #fff3cd;
+      border-left: 8px solid #ffca2c;
+      padding: 25px 30px;
+      border-radius: 8px;
+      color: #856404;
+      font-size: 1rem;
+      line-height: 1.6;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
       user-select: text;
     }
+    .guide-container h3 {
+      margin-top: 0;
+      color: #856404;
+    }
     .link {
-      color: #004080;
+      color: #856404;
       text-decoration: underline;
       cursor: pointer;
+    }
+
+    /* QR կոդի կոնտեյներներ */
+    #qrCanvasText, #qrCanvasUrl, #qrCanvasBio {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .accordion {
+        flex-direction: column;
+      }
+      .section {
+        flex: 1 1 100%;
+      }
+      .guide-container {
+        max-width: 100%;
+        margin: 0 auto 30px;
+      }
     }
   </style>
 </head>
@@ -150,55 +189,41 @@
       <input type="url" id="urlInput" placeholder="https://example.com/yourfile" />
       <button onclick="generateQR('urlInput')">Գեներացնել QR կոդ</button>
       <div id="qrCanvasUrl"></div>
-    </div>
-  </div>
+   
 
-  <div class="section">
-    <div class="header">Ինքնակենսագրություն (Տեքստի երկար ձև)</div>
-    <div class="content">
-      <label for="bioInput">Գրեք ինքնակենսագրությունը</label>
-      <textarea id="bioInput" rows="6" placeholder="Օրինակ՝ Ձեր անունը, հետաքրքրությունները, դպրոցը..."></textarea>
-      <button onclick="generateQR('bioInput')">Գեներացնել QR կոդ</button>
-      <div id="qrCanvasBio"></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="header">Google Drive-ում ֆայլ վերբեռնելու ուղեցույց</div>
-    <div class="content guide">
-      <h3>Քայլ առ քայլ</h3>
-      <ol>
-        <li>Մուտք գործեք <a href="https://drive.google.com" target="_blank" class="link">Google Drive</a>՝ ձեր Google հաշվի միջոցով։</li>
-        <li>Սեղմեք «+ Նոր» կոճակը և ընտրեք «Ֆայլ վերբեռնել»՝ անհրաժեշտ փաստաթուղթը կամ նկարն ընտրելու համար։</li>
-        <li>Ներբեռնելուց հետո գտեք ֆայլը ձեր Google Drive-ում, սեղմեք աջ կոճակ և  ընտրեք «Հասանելիություն» (Share):</li>
-        <li>Ընտրեք «Anyone with the link» կամ «Ցանկացածը, ով ունի հղումը»՝ հասանելիության կարգավորումները, որպեսզի ֆայլը լինի հրապարակային:</li>
-        <li>Պատճենեք ստացված հղումը և օգտագործեք մեր «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը և ստանալով QR կոդը։</li>
-      </ol>
-      <p>Այս կերպ  QR կոդը սկան անելով կկարողանան արագ բացել և ներբեռնել ձեր նախընտրած ֆայլը։</p>
-    </div>
-  </div>
-
+<div class="guide-container">
+  <h3>Ցանկացախ ֆայլ Google Drive-ում  վերբեռնելու ուղեցույց</h3>
+  <ol>
+    <li>Մուտք գործեք <a href="https://drive.google.com" target="_blank" class="link">Google Drive</a>՝ ձեր Google հաշվի միջոցով։</li>
+    <li>Սեղմեք «+ Նոր» կոճակը և ընտրեք «Ֆայլ վերբեռնել»՝ անհրաժեշտ փաստաթուղթը կամ նկարն ընտրելու համար։</li>
+    <li>Ներբեռնելուց հետո գտեք ֆայլը ձեր Google Drive-ում,  սեղմեք աջ կոճակ  և ընտրեք «Հասանելիություն» (Share):</li>
+    <li>Ընտրեք «Anyone with the link» կամ «Ցանկացածը, ով ունի հղումը»՝ հասանելիության կարգավորումը, որպեսզի ֆայլը լինի հրապարակային:</li>
+    <li>Պատճենեք ստացված հղումը և  «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը ստացեք QR կոդը։</li>
+  </ol>
+  <p>Այս կերպ ցանկացածը QR կոդը սկան անելով կկարողանան արագ բացել և ներբեռնել ֆայլը։</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
   // Accordion գործառույթ՝ միաժամանակ բացվում է միայն մեկ բաժին
   const headers = document.querySelectorAll('.header');
-  headers.forEach(header => {
+  const sections = document.querySelectorAll('.section');
+
+  headers.forEach((header, index) => {
     header.addEventListener('click', () => {
       if(header.classList.contains('active')){
         header.classList.remove('active');
-        header.nextElementSibling.classList.remove('open');
+        sections[index].classList.remove('open');
         return;
       }
       // Փակել բոլոր բաց բաժինները
-      headers.forEach(h => {
+      headers.forEach((h, i) => {
         h.classList.remove('active');
-        h.nextElementSibling.classList.remove('open');
+        sections[i].classList.remove('open');
       });
       // Բացել սեղմած բաժինը
       header.classList.add('active');
-      header.nextElementSibling.classList.add('open');
+      sections[index].classList.add('open');
     });
   });
 
