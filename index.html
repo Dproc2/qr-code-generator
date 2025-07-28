@@ -189,18 +189,31 @@
       <input type="url" id="urlInput" placeholder="https://example.com/yourfile" />
       <button onclick="generateQR('urlInput')">Գեներացնել QR կոդ</button>
       <div id="qrCanvasUrl"></div>
-   
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="header">Ինքնակենսագրություն (Տեքստի երկար ձև)</div>
+    <div class="content">
+      <label for="bioInput">Գրեք ինքնակենսագրությունը</label>
+      <textarea id="bioInput" rows="6" placeholder="Օրինակ՝ Ձեր անունը, հետաքրքրությունները, դպրոցը..."></textarea>
+      <button onclick="generateQR('bioInput')">Գեներացնել QR կոդ</button>
+      <div id="qrCanvasBio"></div>
+    </div>
+  </div>
+
+</div>
 
 <div class="guide-container">
-  <h3>Ցանկացախ ֆայլ Google Drive-ում  վերբեռնելու ուղեցույց</h3>
+  <h3>Google Drive-ում ֆայլ վերբեռնելու ուղեցույց</h3>
   <ol>
     <li>Մուտք գործեք <a href="https://drive.google.com" target="_blank" class="link">Google Drive</a>՝ ձեր Google հաշվի միջոցով։</li>
     <li>Սեղմեք «+ Նոր» կոճակը և ընտրեք «Ֆայլ վերբեռնել»՝ անհրաժեշտ փաստաթուղթը կամ նկարն ընտրելու համար։</li>
-    <li>Ներբեռնելուց հետո գտեք ֆայլը ձեր Google Drive-ում,  սեղմեք աջ կոճակ  և ընտրեք «Հասանելիություն» (Share):</li>
-    <li>Ընտրեք «Anyone with the link» կամ «Ցանկացածը, ով ունի հղումը»՝ հասանելիության կարգավորումը, որպեսզի ֆայլը լինի հրապարակային:</li>
-    <li>Պատճենեք ստացված հղումը և  «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը ստացեք QR կոդը։</li>
+    <li>Ներբեռնվելուց հետո գտեք ֆայլը ձեր Google Drive-ում, աջ սեղմեք այն և ընտրեք «Հասանելիություն» (Share):</li>
+    <li>Ընտրեք «Anyone with the link» կամ «Ցանկացած, ով ունի հղումը»՝ հասանելիության կարգավորումները, որպեսզի ֆայլը լինի հրապարակային:</li>
+    <li>Պատճենեք ստացված հղումը և օգտագործեք մեր «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը և ստանալով QR կոդը։</li>
   </ol>
-  <p>Այս կերպ ցանկացածը QR կոդը սկան անելով կկարողանան արագ բացել և ներբեռնել ֆայլը։</p>
+  <p>Այս կերպ աշակերտները QR կոդը սկան անելով կկարողանան արագ բացել և ներբեռնել ֆայլը։</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
