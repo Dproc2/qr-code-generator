@@ -2,265 +2,166 @@
 <html lang="hy">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>QR Կոդերի Գեներատոր</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR Կոդ Գեներատոր</title>
   <style>
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-family: "Segoe UI", sans-serif;
       background: #f0f4f8;
-      margin: 0; padding: 20px;
-      color: #333;
-      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
+
     h1 {
       text-align: center;
-      color: #0066cc;
-      margin-bottom: 30px;
-      user-select: none;
+      color: #2c3e50;
     }
-    .accordion {
-      max-width: 900px;
-      margin: 0 auto 40px;
+
+    .container {
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
       justify-content: center;
-    }
-    .section {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
-      flex: 1 1 45%;
-      min-width: 280px;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #e0e0e0;
-      transition: margin-bottom 0.3s ease;
-    }
-    .section.open {
+      gap: 40px;
+      flex-wrap: wrap;
       margin-bottom: 40px;
     }
-    .header {
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      padding: 15px 20px;
-      font-size: 1.2rem;
-      user-select: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background-color 0.3s ease;
-      border-radius: 8px 8px 0 0;
-    }
-    .header:hover {
-      background-color: #0056b3;
-    }
-    .header:after {
-      content: "+";
-      font-weight: bold;
-      font-size: 1.5rem;
-      transition: transform 0.3s ease;
-    }
-    .header.active:after {
-      content: "−";
-      transform: rotate(180deg);
-    }
-    .content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.4s ease;
-      padding: 0 20px;
-      background: #f9fbfd;
-      border-radius: 0 0 8px 8px;
-      flex-grow: 1;
-    }
-    .content.open {
+
+    .section {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       padding: 20px;
-      max-height: 600px;
+      width: 300px;
+      transition: 0.3s;
     }
+
+    .section h2 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #1a5276;
+    }
+
     label {
       display: block;
-      margin: 15px 0 8px;
-      font-weight: 600;
-      color: #004080;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #34495e;
     }
-    textarea, input[type="text"], input[type="url"] {
+
+    input[type="text"], textarea {
       width: 100%;
       padding: 10px;
-      border: 2px solid #007bff;
-      border-radius: 6px;
-      font-size: 1rem;
-      box-sizing: border-box;
-      resize: vertical;
-      transition: border-color 0.3s ease;
-    }
-    textarea:focus, input[type="text"]:focus, input[type="url"]:focus {
-      border-color: #0056b3;
-      outline: none;
-    }
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: background-color 0.3s ease;
-      user-select: none;
-      align-self: flex-start;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #qrCanvas {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-    }
-    /* Ուղեցույցի հատուկ ոճ */
-    .guide-container {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      background: #fff3cd;
-      border-left: 8px solid #ffca2c;
-      padding: 25px 30px;
+      margin-bottom: 12px;
       border-radius: 8px;
-      color: #856404;
-      font-size: 1rem;
-      line-height: 1.6;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
-      user-select: text;
+      border: 1px solid #ccc;
+      font-size: 14px;
     }
-    .guide-container h3 {
-      margin-top: 0;
-      color: #856404;
-    }
-    .link {
-      color: #856404;
-      text-decoration: underline;
+
+    button {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
       cursor: pointer;
+      transition: 0.2s;
     }
 
-    /* QR կոդի կոնտեյներներ */
-    #qrCanvasText, #qrCanvasUrl, #qrCanvasBio {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
+    button:hover {
+      background-color: #1c5984;
     }
 
-    /* Responsive */
-    @media (max-width: 700px) {
-      .accordion {
-        flex-direction: column;
-      }
-      .section {
-        flex: 1 1 100%;
-      }
-      .guide-container {
-        max-width: 100%;
-        margin: 0 auto 30px;
-      }
+    canvas {
+      margin-top: 10px;
+    }
+
+    .guide {
+      background-color: #fdf2e9;
+      border-left: 6px solid #e67e22;
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+
+    .guide h2 {
+      color: #d35400;
+    }
+
+    .guide ol {
+      padding-left: 20px;
+    }
+
+    .guide li {
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
 
-<h1>QR Կոդերի Գեներատոր</h1>
+  <h1>QR Կոդերի Ստեղծման Ծրագիր</h1>
 
-<div class="accordion">
+  <div class="container">
+    <!-- Տեքստից QR -->
+    <div class="section">
+      <h2>Տեքստից QR Կոդ</h2>
+      <label for="text">Տեքստը մուտքագրեք</label>
+      <textarea id="text" rows="4" placeholder="Օրինակ՝ Թեմա 1-ի աշխատանքը"></textarea>
+      <button onclick="generateQRCode('text')">Ստեղծել QR</button>
+      <div id="qr-text"></div>
+    </div>
 
-  <div class="section">
-    <div class="header">Տեքստից QR կոդ ստանալ</div>
-    <div class="content">
-      <label for="textInput">Մուտքագրեք տեքստը</label>
-      <textarea id="textInput" rows="4" placeholder="Ներմուծեք տեքստը այստեղ..."></textarea>
-      <button onclick="generateQR('textInput')">Գեներացնել QR կոդ</button>
-      <div id="qrCanvasText"></div>
+    <!-- Հղումից QR -->
+    <div class="section">
+      <h2>Հղումից QR Կոդ</h2>
+      <label for="link">Տեղադրեք հղումը</label>
+      <input type="text" id="link" placeholder="Օրինակ՝ https://drive.google.com/yourfile" />
+      <button onclick="generateQRCode('link')">Ստեղծել QR</button>
+      <div id="qr-link"></div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="header">Հղումից QR կոդ ստանալ</div>
-    <div class="content">
-      <label for="urlInput">Մուտքագրեք URL հղումը</label>
-      <input type="url" id="urlInput" placeholder="https://example.com/yourfile" />
-      <button onclick="generateQR('urlInput')">Գեներացնել QR կոդ</button>
-      <div id="qrCanvasUrl"></div>
-    </div>
+  <!-- Ուղեցույց -->
+  <div class="guide">
+    <h2>📌 Ինչպես բեռնել ֆայլ Google Drive-ում և ստանալ հղում</h2>
+    <ol>
+      <li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a> կայքը։</li>
+      <li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
+      <li>Երբ ֆայլը բեռնվի, աջ սեղմեք ֆայլի վրա և ընտրեք <b>"Get link"</b>։</li>
+      <li>Փոխեք "Restricted"-ը → "Anyone with the link"։</li>
+      <li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
+    </ol>
   </div>
 
-  <div class="section">
-    <div class="header">Ինքնակենսագրություն (Տեքստի երկար ձև)</div>
-    <div class="content">
-      <label for="bioInput">Գրեք ինքնակենսագրությունը</label>
-      <textarea id="bioInput" rows="6" placeholder="Օրինակ՝ Ձեր անունը, հետաքրքրությունները, դպրոցը..."></textarea>
-      <button onclick="generateQR('bioInput')">Գեներացնել QR կոդ</button>
-      <div id="qrCanvasBio"></div>
-    </div>
-  </div>
+  <!-- QR.js գրադարան -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script>
+    function generateQRCode(type) {
+      let value = "";
+      let containerId = "";
 
-</div>
+      if (type === "text") {
+        value = document.getElementById("text").value.trim();
+        containerId = "qr-text";
+      } else if (type === "link") {
+        value = document.getElementById("link").value.trim();
+        containerId = "qr-link";
+      }
 
-<div class="guide-container">
-  <h3>Google Drive-ում ֆայլ վերբեռնելու ուղեցույց</h3>
-  <ol>
-    <li>Մուտք գործեք <a href="https://drive.google.com" target="_blank" class="link">Google Drive</a>՝ ձեր Google հաշվի միջոցով։</li>
-    <li>Սեղմեք «+ Նոր» կոճակը և ընտրեք «Ֆայլ վերբեռնել»՝ անհրաժեշտ փաստաթուղթը կամ նկարն ընտրելու համար։</li>
-    <li>Ներբեռնվելուց հետո գտեք ֆայլը ձեր Google Drive-ում, աջ սեղմեք այն և ընտրեք «Հասանելիություն» (Share):</li>
-    <li>Ընտրեք «Anyone with the link» կամ «Ցանկացած, ով ունի հղումը»՝ հասանելիության կարգավորումները, որպեսզի ֆայլը լինի հրապարակային:</li>
-    <li>Պատճենեք ստացված հղումը և օգտագործեք մեր «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը և ստանալով QR կոդը։</li>
-  </ol>
-  <p>Այս կերպ աշակերտները QR կոդը սկան անելով կկարողանան արագ բացել և ներբեռնել ֆայլը։</p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script>
-  // Accordion գործառույթ՝ միաժամանակ բացվում է միայն մեկ բաժին
-  const headers = document.querySelectorAll('.header');
-  const sections = document.querySelectorAll('.section');
-
-  headers.forEach((header, index) => {
-    header.addEventListener('click', () => {
-      if(header.classList.contains('active')){
-        header.classList.remove('active');
-        sections[index].classList.remove('open');
+      if (value === "") {
+        alert("Խնդրում ենք լրացնել դաշտը։");
         return;
       }
-      // Փակել բոլոր բաց բաժինները
-      headers.forEach((h, i) => {
-        h.classList.remove('active');
-        sections[i].classList.remove('open');
+
+      let qr = new QRious({
+        value: value,
+        size: 200
       });
-      // Բացել սեղմած բաժինը
-      header.classList.add('active');
-      sections[index].classList.add('open');
-    });
-  });
 
-  function generateQR(inputId){
-    const input = document.getElementById(inputId);
-    const qrDivId = "qrCanvas" + inputId.charAt(0).toUpperCase() + inputId.slice(1);
-    const qrDiv = document.getElementById(qrDivId);
-    qrDiv.innerHTML = '';
-
-    let text = input.value.trim();
-    if(!text){
-      alert("Խնդրում ենք մուտքագրել արժեք");
-      return;
+      document.getElementById(containerId).innerHTML = "";
+      document.getElementById(containerId).appendChild(qr.image);
     }
-
-    QRCode.toCanvas(text, { width: 220, color: { dark: '#007bff', light: '#f9fbfd' } }, (error, canvas) => {
-      if(error){
-        alert("QR կոդի ստեղծման սխալ: " + error);
-        return;
-      }
-      qrDiv.appendChild(canvas);
-    });
-  }
-</script>
+  </script>
 
 </body>
 </html>
