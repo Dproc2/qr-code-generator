@@ -66,7 +66,7 @@
     }
     .content.open {
       padding: 20px;
-      max-height: 400px;
+      max-height: 600px;
     }
     label {
       display: block;
@@ -163,27 +163,29 @@
     </div>
   </div>
 
-</div>
+  <div class="section">
+    <div class="header">Google Drive-ում ֆայլ վերբեռնելու ուղեցույց</div>
+    <div class="content guide">
+      <h3>Քայլ առ քայլ</h3>
+      <ol>
+        <li>Մուտք գործեք <a href="https://drive.google.com" target="_blank" class="link">Google Drive</a>՝ ձեր Google հաշվի միջոցով։</li>
+        <li>Սեղմեք «+ Նոր» կոճակը և ընտրեք «Ֆայլ վերբեռնել»՝ անհրաժեշտ փաստաթուղթը կամ նկարն ընտրելու համար։</li>
+        <li>Ներբեռնելուց հետո գտեք ֆայլը ձեր Google Drive-ում, սեղմեք աջ կոճակ և  ընտրեք «Հասանելիություն» (Share):</li>
+        <li>Ընտրեք «Anyone with the link» կամ «Ցանկացածը, ով ունի հղումը»՝ հասանելիության կարգավորումները, որպեսզի ֆայլը լինի հրապարակային:</li>
+        <li>Պատճենեք ստացված հղումը և օգտագործեք մեր «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը և ստանալով QR կոդը։</li>
+      </ol>
+      <p>Այս կերպ  QR կոդը սկան անելով կկարողանան արագ բացել և ներբեռնել ձեր նախընտրած ֆայլը։</p>
+    </div>
+  </div>
 
-<div class="guide">
-  <h3>Ուղեցույց Google Drive-ում ֆայլ վերբեռնելու և հղում ստանալու համար</h3>
-  <ol>
-    <li>Մուտք գործեք <a href="https://drive.google.com" target="_blank" class="link">Google Drive</a> ձեր Google հաշվի միջոցով։</li>
-    <li>Սեղմեք «+ Նոր» կոճակը և ընտրեք «Ֆայլ վերբեռնել»՝ անհրաժեշտ փաստաթուղթը կամ նկարն ընտրելու համար։</li>
-    <li>Ներբեռնվելուց հետո գտեք ֆայլը ձեր Google Drive-ում, աջ սեղմեք այն և ընտրեք «Հասանելիություն» (Share):</li>
-    <li>Ստացեք ֆայլի ընդհանուր հղումը՝ ընտրելով «Anyone with the link» կամ «Ցանկացած, ով ունի հղումը»՝ հասանելիության կարգավորումները։</li>
-    <li>Ստացված հղումը պատճենեք և օգտագործեք մեր «Հղումից QR կոդ ստանալու» բաժնում՝ մուտքագրելով URL-ը և ստեղծելով QR կոդը։</li>
-  </ol>
-  <p>Այդպես ձեր աշակերտները QR կոդի միջոցով արագ կկարողանան բացել և ներբեռնել տվյալ ֆայլը։</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
-  // Accordion գործառույթ՝ բացում և փակում
+  // Accordion գործառույթ՝ միաժամանակ բացվում է միայն մեկ բաժին
   const headers = document.querySelectorAll('.header');
   headers.forEach(header => {
     header.addEventListener('click', () => {
-      // Եթե արդեն բաց է՝ փակենք
       if(header.classList.contains('active')){
         header.classList.remove('active');
         header.nextElementSibling.classList.remove('open');
@@ -194,7 +196,7 @@
         h.classList.remove('active');
         h.nextElementSibling.classList.remove('open');
       });
-      // Բացել այս բաժինը
+      // Բացել սեղմած բաժինը
       header.classList.add('active');
       header.nextElementSibling.classList.add('open');
     });
@@ -204,7 +206,7 @@
     const input = document.getElementById(inputId);
     const qrDivId = "qrCanvas" + inputId.charAt(0).toUpperCase() + inputId.slice(1);
     const qrDiv = document.getElementById(qrDivId);
-    qrDiv.innerHTML = ''; // Очистить прошлый QR
+    qrDiv.innerHTML = '';
 
     let text = input.value.trim();
     if(!text){
@@ -212,7 +214,6 @@
       return;
     }
 
-    // Ստեղծել QR կոդը
     QRCode.toCanvas(text, { width: 220, color: { dark: '#007bff', light: '#f9fbfd' } }, (error, canvas) => {
       if(error){
         alert("QR կոդի ստեղծման սխալ: " + error);
