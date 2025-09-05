@@ -36,17 +36,17 @@
       transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    /* Գունային տարբերություններ բաժինների համար */
+    /* Թարմացված գունային տարբերություններ բաժինների համար */
     .section:nth-child(1) {
-      background: linear-gradient(135deg, #74b9ff, #0984e3);
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
       color: white;
     }
     .section:nth-child(2) {
-      background: linear-gradient(135deg, #55efc4, #00b894);
+      background: linear-gradient(135deg, #00cec9, #81ecec);
       color: white;
     }
     .section:nth-child(3) {
-      background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0);
       color: #2c3e50;
     }
 
@@ -199,7 +199,7 @@
 
         const reader = new FileReader();
         reader.onload = function(e) {
-          const imgData = e.target.result; // base64 նկար
+          const imgData = e.target.result;
           createQR(imgData, containerId);
         };
         reader.readAsDataURL(file);
@@ -217,11 +217,11 @@
     function createQR(value, containerId) {
       let qr = new QRious({
         value: value,
-        size: 250 // ավելի մեծ QR փոքրիկ նկարների համար
+        size: 250
       });
 
       const container = document.getElementById(containerId);
-      container.innerHTML = ""; // Մաքրում է հինը
+      container.innerHTML = "";
 
       const img = qr.image;
       img.style.marginBottom = "10px";
