@@ -166,41 +166,7 @@
           <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         </body>
         </html>
-      `], {type: 'text/html'});
-
-      const url = URL.createObjectURL(blob);
-
-      // Ստեղծել QR կոդը միայն URL-ի համար
-      const qr = new QRious({
-        value: url,
-        size: 300
-      });
-
-      container.innerHTML = "";
-
-      const img = qr.image;
-      img.style.marginBottom = "10px";
-
-      const downloadBtn = document.createElement("button");
-      downloadBtn.textContent = "Ներբեռնել QR կոդը";
-      downloadBtn.onclick = function () {
-        const link = document.createElement("a");
-        link.href = img.src;
-        link.download = "qr_code.png";
-        link.click();
-      };
-
-      const openBtn = document.createElement("button");
-      openBtn.textContent = "Բացել աշխատանքը նոր էջում";
-      openBtn.style.marginLeft = "10px";
-      openBtn.onclick = function () {
-        window.open(url, "_blank");
-      };
-
-      container.appendChild(img);
-      container.appendChild(downloadBtn);
-      container.appendChild(openBtn);
-    }
+     
   </script>
 
 </body>
