@@ -73,6 +73,25 @@
       background: #2c3e50;
       color: white;
     }
+
+    .text-page {
+      padding: 20px;
+      background: white;
+      max-width: 800px;
+      margin: 20px auto;
+      border-radius: 10px;
+      text-align: left;
+      white-space: pre-wrap;
+      font-size: 16px;
+    }
+
+    .download-buttons {
+      margin-top: 15px;
+    }
+
+    .download-buttons button {
+      margin: 5px;
+    }
   </style>
 </head>
 <body>
@@ -87,6 +106,8 @@
   <a href="index.html" class="back-link">⬅ Վերադառնալ գլխավոր էջ</a>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     function generateQRCode() {
       const value = document.getElementById("text").value.trim();
@@ -97,8 +118,61 @@
         return;
       }
 
+      // Ստեղծել նոր էջի Blob հղում տեքստի համար
+      const blob = new Blob([`
+        <!DOCTYPE html>
+        <html lang="hy">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Ամփոփիչ աշխատանք</title>
+          <style>
+            body { font-family: "Segoe UI", sans-serif; padding: 20px; background: #f0f4f8; }
+            .text-page { padding: 20px; background: white; max-width: 800px; margin: 20px auto; border-radius: 10px; white-space: pre-wrap; font-size: 16px; }
+            button { background: #6c5ce7; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 5px; }
+            button:hover { background: #4b36c5; }
+          </style>
+        </head>
+        <body>
+          <div class="text-page">${value}</div>
+          <div class="download-buttons">
+            <button onclick="
+              const el = document.querySelector('.text-page');
+              html2canvas(el).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'text_as_image.png';
+                link.click();
+              });
+            ">Ներբեռնել որպես նկարը</button>
+
+            <button onclick="
+              const el = document.querySelector('.text-page');
+              html2canvas(el).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'pt', 'a4');
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth * ratio, imgHeight * ratio);
+                pdf.save('text_as_pdf.pdf');
+              });
+            ">Ներբեռնել որպես PDF</button>
+          </div>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        </body>
+        </html>
+      `], {type: 'text/html'});
+
+      const url = URL.createObjectURL(blob);
+
+      // Ստեղծել QR կոդը միայն URL-ի համար
       const qr = new QRious({
-        value: value,
+        value: url,
         size: 300
       });
 
@@ -116,8 +190,16 @@
         link.click();
       };
 
+      const openBtn = document.createElement("button");
+      openBtn.textContent = "Բացել աշխատանքը նոր էջում";
+      openBtn.style.marginLeft = "10px";
+      openBtn.onclick = function () {
+        window.open(url, "_blank");
+      };
+
       container.appendChild(img);
       container.appendChild(downloadBtn);
+      container.appendChild(openBtn);
     }
   </script>
 
