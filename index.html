@@ -14,6 +14,12 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
 .section button { padding:10px 14px; border-radius:8px; border:none; background:#6c5ce7; color:#fff; cursor:pointer; margin-top:4px; }
 .qr-container { margin-top:10px; display:flex; flex-direction:column; align-items:center; gap:8px; min-height:40px; }
 .qr-container img { max-width:100%; height:auto; display:block; }
+
+/* Ուղեցույցի դիզայն */
+.guide { background-color: #fef9f6; border-top: 4px solid #e67e22; padding:15px 20px; max-width: 700px; margin:40px auto 0 auto; border-radius:10px; font-size:14px; color: #5d4037; }
+.guide h2 { color:#d35400; font-size:18px; margin-top:0; }
+.guide a { color:#0984e3; text-decoration:none; }
+.guide a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -23,7 +29,7 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
 <div class="container">
 
   <!-- Տեքստից QR -->
-  <div class="section" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe); color:white;">
+  <div class="section" style="background:linear-gradient(135deg,#8e44ad,#b795f7); color:white;">
     <h2>Տեքստից QR</h2>
     <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="6"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
@@ -31,15 +37,15 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
   </div>
 
   <!-- Հղումից QR -->
-  <div class="section" style="background:linear-gradient(135deg,#00cec9,#81ecec); color:white;">
+  <div class="section" style="background:linear-gradient(135deg,#00b894,#55efc4); color:white;">
     <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Paste link, π.χ. https://..." />
+    <input type="text" id="link" placeholder="Paste link, π.χ. https://drive.google.com/..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
 
   <!-- Նկարից QR -->
-  <div class="section" style="background:linear-gradient(135deg,#ffeaa7,#fab1a0); color:#2c3e50;">
+  <div class="section" style="background:linear-gradient(135deg,#ffeaa7,#ffb347); color:#2c3e50;">
     <h2>Նկարից QR</h2>
     <input type="file" id="image" accept="image/*" />
     <button onclick="generateQRCode('image')">Ստեղծել QR</button>
@@ -48,98 +54,116 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
 
 </div>
 
+<!-- Ուղեցույց -->
+<div class="guide">
+<h2>📌 Ինչպես բեռնել ֆայլը Google Drive-ում և ստանալ հղում</h2>
+<ol>
+  <li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a> կայքը։</li>
+  <li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
+  <li>Երբ ֆայլը բեռնվի, սեղմեք աջ կոճակ ֆայլի վրա և ընտրեք <b>"Get link" կամ "share"</b>։</li>
+  <li>Փոխեք "Restricted" → "Anyone with the link"։</li>
+  <li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
+</ol>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
 <script>
-function generateQRCode(type){
-  let value = "", containerId="";
-  if(type==='text'){ 
-    value=document.getElementById("text").value.trim(); 
-    containerId="qr-text"; 
-    if(!value){alert("Խնդրում ենք լրացնել տեքստը։"); return;}
-    // Ստեղծել Data URL նոր HTML էջի համար
+function generateQRCode(type) {
+  let value = "";
+  let containerId = "";
+
+  if (type === 'text') {
+    value = document.getElementById("text").value.trim();
+    containerId = "qr-text";
+    if (!value) { alert("Խնդրում ենք լրացնել տեքստը։"); return; }
+
     const htmlContent = `
       <!DOCTYPE html>
       <html lang="hy">
       <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Տեքստի QR արդյունք</title>
-      <style>
-        body{font-family:"Segoe UI",sans-serif;background:#f0f4f8;padding:20px;}
-        .text-page{background:white; max-width:800px; margin:20px auto; padding:20px; border-radius:10px; white-space:pre-wrap; font-size:16px;}
-        button{background:#6c5ce7;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin:5px;}
-        button:hover{background:#4b36c5;}
-      </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Տեքստի QR արդյունք</title>
+        <style>
+          body { font-family: "Segoe UI", sans-serif; background:#f0f4f8; padding:20px; }
+          .text-page { background:white; max-width:800px; margin:20px auto; padding:20px; border-radius:10px; white-space:pre-wrap; font-size:16px; }
+          button { background:#6c5ce7; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin:5px; }
+          button:hover { background:#4b36c5; }
+        </style>
       </head>
       <body>
         <div class="text-page">${value}</div>
         <button onclick="downloadPNG()">Ներբեռնել որպես PNG</button>
         <button onclick="downloadPDF()">Ներբեռնել որպես PDF</button>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script>
-          function downloadPNG(){
-            html2canvas(document.querySelector(".text-page")).then(canvas=>{
-              const link=document.createElement("a");
-              link.href=canvas.toDataURL("image/png");
-              link.download="text_as_image.png";
+          function downloadPNG() {
+            html2canvas(document.querySelector(".text-page")).then(canvas => {
+              const link = document.createElement("a");
+              link.href = canvas.toDataURL("image/png");
+              link.download = "text_as_image.png";
               link.click();
             });
           }
-          function downloadPDF(){
-            html2canvas(document.querySelector(".text-page")).then(canvas=>{
-              const imgData=canvas.toDataURL("image/png");
-              const {jsPDF}=window.jspdf;
-              const pdf=new jsPDF("p","pt","a4");
-              const pageWidth=pdf.internal.pageSize.getWidth();
-              const pageHeight=pdf.internal.pageSize.getHeight();
-              const ratio=Math.min(pageWidth/canvas.width,pageHeight/canvas.height);
+          function downloadPDF() {
+            html2canvas(document.querySelector(".text-page")).then(canvas => {
+              const imgData = canvas.toDataURL("image/png");
+              const { jsPDF } = window.jspdf;
+              const pdf = new jsPDF("p","pt","a4");
+              const pageWidth = pdf.internal.pageSize.getWidth();
+              const pageHeight = pdf.internal.pageSize.getHeight();
+              const ratio = Math.min(pageWidth/canvas.width, pageHeight/canvas.height);
               pdf.addImage(imgData,"PNG",0,0,canvas.width*ratio,canvas.height*ratio);
               pdf.save("text_as_pdf.pdf");
             });
           }
-        </script>
+        <\/script>
       </body>
       </html>
     `;
-    const dataUrl='data:text/html;base64,'+btoa(unescape(encodeURIComponent(htmlContent)));
-    // Ստեղծել QR
+    const dataUrl = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(htmlContent)));
     createQR(dataUrl, containerId);
     return;
-  }
-  else if(type==='link'){ 
-    value=document.getElementById("link").value.trim(); 
-    containerId="qr-link";
-    if(!value){alert("Խնդրում ենք լրացնել դաշտը։"); return;}
-  }
-  else if(type==='image'){ 
-    const file=document.getElementById("image").files[0];
-    containerId="qr-image";
-    if(!file){alert("Խնդրում ենք ընտրել նկար։"); return;}
-    const reader=new FileReader();
-    reader.onload=function(e){ createQR(e.target.result,containerId); };
+  } 
+  else if (type === 'link') {
+    value = document.getElementById("link").value.trim();
+    containerId = "qr-link";
+    if (!value) { alert("Խնդրում ենք լրացնել դաշտը։"); return; }
+  } 
+  else if (type === 'image') {
+    const file = document.getElementById("image").files[0];
+    containerId = "qr-image";
+    if (!file) { alert("Խնդրում ենք ընտրել նկար։"); return; }
+    const reader = new FileReader();
+    reader.onload = function(e) { createQR(e.target.result, containerId); };
     reader.readAsDataURL(file);
     return;
   }
-  createQR(value,containerId);
+
+  createQR(value, containerId);
 }
 
-function createQR(value,containerId){
-  const qr=new QRious({value:value,size:300});
-  const container=document.getElementById(containerId);
-  container.innerHTML="";
-  const img=document.createElement("img");
-  img.src=qr.toDataURL();
-  img.alt="QR Code";
-  const downloadBtn=document.createElement("button");
-  downloadBtn.textContent="Ներբեռնել QR";
-  downloadBtn.onclick=function(){ 
-    const link=document.createElement("a"); 
-    link.href=img.src; 
-    link.download="qr_code.png"; 
-    link.click(); 
+function createQR(value, containerId) {
+  const qr = new QRious({ value: value, size: 300 });
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = qr.toDataURL();
+  img.alt = "QR Code";
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.textContent = "Ներբեռնել QR";
+  downloadBtn.onclick = function() {
+    const link = document.createElement("a");
+    link.href = img.src;
+    link.download = "qr_code.png";
+    link.click();
   };
+
   container.appendChild(img);
   container.appendChild(downloadBtn);
 }
