@@ -39,21 +39,21 @@ body.dark .guide a{color:#fbc531;}
 
 <div class="container">
   <div class="section text">
-    <h2>Տեքստից QR</h2>
-    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="5"></textarea>
+    <h2>Տեքստից ստանալ QR կոդ</h2>
+    <textarea id="text" placeholder="Մուտքագրեք տեքստը..." rows="5"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
 
   <div class="section link">
-    <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Paste link, π.χ. https://..." />
+    <h2>Հղումից ստանալ  QR կոդ</h2>
+    <input type="text" id="link" placeholder="Տեղադրեք հղումը,օր․՝ https://..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
 
   <div class="section image">
-    <h2>Նկարից QR</h2>
+    <h2>Նկարից ստանալ  QR կոդ</h2>
     <input type="file" id="image" accept="image/*" />
     <button onclick="generateQRCode('image')">Ստեղծել QR</button>
     <div id="qr-image" class="qr-container"></div>
@@ -65,7 +65,7 @@ body.dark .guide a{color:#fbc531;}
 <ol>
 <li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a>։</li>
 <li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
-<li>Սեղմեք աջ կոճակ ֆայլի վրա և ընտրեք <b>"Get link"</b>։</li>
+<li>Բեռնվելուց հետո սեղմեք աջ կոճակը ֆայլի վրա,ընտրեք  <b>"Get link"</b>։կամ  <b>"Share"</b> </li>
 <li>Փոխեք "Restricted" → "Anyone with the link"։</li>
 <li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
 </ol>
