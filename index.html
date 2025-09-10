@@ -17,7 +17,7 @@ h1{
     text-align:center;
     font-size:36px;
     margin-bottom:20px;
-    border-bottom:3px solid #b8860b;
+    border-bottom:4px solid #8b4513;
     display:inline-block;
     padding-bottom:10px;
 }
@@ -34,14 +34,14 @@ h1 button{
 h1 button:hover{ transform: scale(1.1); }
 .container{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
 .section{
-    width:300px;
+    width:320px;
     padding:20px;
     border-radius:15px;
     text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    box-shadow:0 6px 16px rgba(0,0,0,0.15);
     transition:transform 0.3s,background 0.5s,color 0.5s;
 }
-.section:hover{ transform:translateY(-5px); }
+.section:hover{ transform:translateY(-6px); }
 .section h2{ margin-top:0; font-size:22px; }
 .section input, .section textarea{ width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px; box-sizing:border-box; font-size:14px; }
 .section button{
@@ -65,36 +65,36 @@ h1 button:hover{ transform: scale(1.1); }
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:12px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
 
-/* Բաց շագանակագույն գրադիենտներ */
-.section.text{ background:linear-gradient(135deg,#deb887,#f4a460); color:#2d1b0c; }
-.section.link{ background:linear-gradient(135deg,#f0e68c,#d2b48c); color:#2d1b0c; }
-.section.image{ background:linear-gradient(135deg,#cd853f,#deb887); color:#2d1b0c; }
+/* Բարձրացված և գեղեցիկ շագանակագույն/բեժ երանգներ */
+.section.text{ background:linear-gradient(135deg,#d2691e,#ff8c00); color:#fff; }
+.section.link{ background:linear-gradient(135deg,#deb887,#f4a460); color:#2d1b0c; }
+.section.image{ background:linear-gradient(135deg,#cd853f,#a0522d); color:#fff; }
 
 .guide{
     background:#fff;
-    border:2px solid #b8860b;
+    border:3px solid #8b4513;
     padding:15px 20px;
-    max-width:700px;
+    max-width:720px;
     margin:40px auto 0 auto;
     border-radius:12px;
     font-size:14px;
     color:#2d3436;
     transition:background 0.5s,color 0.5s,border-color 0.5s;
 }
-.guide h2{ color:#b8860b; font-size:18px; }
-.guide a{ color:#d2b48c; text-decoration:none; }
+.guide h2{ color:#8b4513; font-size:18px; }
+.guide a{ color:#a0522d; text-decoration:none; }
 .guide a:hover{ text-decoration:underline; }
 
 body.dark{
     background:linear-gradient(135deg,#2f3640,#353b48);
     color:#f5f6fa;
 }
-body.dark .section.text{ background:linear-gradient(135deg,#deb887,#f4a460); color:#2d1b0c; }
-body.dark .section.link{ background:linear-gradient(135deg,#f0e68c,#d2b48c); color:#2d1b0c; }
-body.dark .section.image{ background:linear-gradient(135deg,#cd853f,#deb887); color:#2d1b0c; }
-body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#d2b48c; }
-body.dark .guide h2{ color:#d2b48c; }
-body.dark .guide a{ color:#f0e68c; }
+body.dark .section.text{ background:linear-gradient(135deg,#d2691e,#ff8c00); color:#fff; }
+body.dark .section.link{ background:linear-gradient(135deg,#deb887,#f4a460); color:#2d1b0c; }
+body.dark .section.image{ background:linear-gradient(135deg,#cd853f,#a0522d); color:#fff; }
+body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#deb887; }
+body.dark .guide h2{ color:#deb887; }
+body.dark .guide a{ color:#f4a460; }
 </style>
 </head>
 <body>
@@ -139,9 +139,6 @@ QR Կոդ Գեներատոր
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
@@ -154,11 +151,8 @@ function generateQRCode(type){
         containerId = "qr-text";
         if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
 
-        // Ստեղծում ենք QR տեքստի համար, որը հնարավոր է սքանավորել
-        const htmlContent = `
-            ${value}
-        `;
-        createQR(htmlContent, containerId);
+        // Տեքստը ուղակի դնում ենք QR արժեքի մեջ՝ առանց բարդ encodeURIComponent
+        createQR(value, containerId);
 
     } else if(type==='link'){
         value = document.getElementById("link").value.trim();
@@ -196,38 +190,8 @@ function createQR(value, containerId){
         link.click();
     };
 
-    const downloadTextPNG = document.createElement("button");
-    downloadTextPNG.textContent = "Ներբեռնել որպես PNG";
-    downloadTextPNG.onclick = function(){
-        html2canvas(document.querySelector("#text")).then(canvas=>{
-            const link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
-            link.download = "text_as_image.png";
-            link.click();
-        });
-    };
-
-    const downloadTextPDF = document.createElement("button");
-    downloadTextPDF.textContent = "Ներբեռնել որպես PDF";
-    downloadTextPDF.onclick = function(){
-        html2canvas(document.querySelector("#text")).then(canvas=>{
-            const imgData = canvas.toDataURL("image/png");
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF("p","pt","a4");
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
-            const ratio = Math.min(pageWidth/canvas.width,pageHeight/canvas.height);
-            pdf.addImage(imgData,"PNG",0,0,canvas.width*ratio,canvas.height*ratio);
-            pdf.save("text_as_pdf.pdf");
-        });
-    };
-
     container.appendChild(img);
     container.appendChild(downloadBtn);
-    if(containerId==="qr-text"){
-        container.appendChild(downloadTextPNG);
-        container.appendChild(downloadTextPDF);
-    }
 }
 </script>
 
