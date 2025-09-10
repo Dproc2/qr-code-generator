@@ -17,7 +17,7 @@ h1{
     text-align:center;
     font-size:36px;
     margin-bottom:20px;
-    border-bottom:3px solid #ff6b81;
+    border-bottom:3px solid #8b4513;
     display:inline-block;
     padding-bottom:10px;
 }
@@ -65,14 +65,14 @@ h1 button:hover{ transform: scale(1.1); }
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:12px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
 
-/* Նոր տաք երանգներով բաժիններ */
-.section.text{ background:linear-gradient(135deg,#ff9f43,#ff6b00); color:#fff; } /* նարնջագույն */
-.section.link{ background:linear-gradient(135deg,#d4a017,#b8860b); color:#fff; } /* կեղտոտ դեղին */
-.section.image{ background:linear-gradient(135deg,#8b4513,#a0522d); color:#fff; } /* շագանակագույն */
+/* Շագանակագույն գրադիենտների նորացում */
+.section.text{ background:linear-gradient(135deg,#8b4513,#a0522d); color:#fff; }
+.section.link{ background:linear-gradient(135deg,#a0522d,#d2691e); color:#fff; }
+.section.image{ background:linear-gradient(135deg,#654321,#8b4513); color:#fff; }
 
 .guide{
     background:#fff;
-    border:2px solid #ff6b81;
+    border:2px solid #8b4513;
     padding:15px 20px;
     max-width:700px;
     margin:40px auto 0 auto;
@@ -81,20 +81,20 @@ h1 button:hover{ transform: scale(1.1); }
     color:#2d3436;
     transition:background 0.5s,color 0.5s,border-color 0.5s;
 }
-.guide h2{ color:#ff6b81; font-size:18px; }
-.guide a{ color:#1dd1a1; text-decoration:none; }
+.guide h2{ color:#8b4513; font-size:18px; }
+.guide a{ color:#a0522d; text-decoration:none; }
 .guide a:hover{ text-decoration:underline; }
 
 body.dark{
     background:linear-gradient(135deg,#2f3640,#353b48);
     color:#f5f6fa;
 }
-body.dark .section.text{ background:linear-gradient(135deg,#ff7f24,#ff4500); color:#fff; }
-body.dark .section.link{ background:linear-gradient(135deg,#cdaa7d,#b8860b); color:#fff; }
-body.dark .section.image{ background:linear-gradient(135deg,#5c3317,#8b4513); color:#fff; }
-body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#00a8ff; }
-body.dark .guide h2{ color:#00a8ff; }
-body.dark .guide a{ color:#fbc531; }
+body.dark .section.text{ background:linear-gradient(135deg,#5c3317,#8b4513); color:#fff; }
+body.dark .section.link{ background:linear-gradient(135deg,#8b4513,#a0522d); color:#fff; }
+body.dark .section.image{ background:linear-gradient(135deg,#4b2e1f,#654321); color:#fff; }
+body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#a0522d; }
+body.dark .guide h2{ color:#a0522d; }
+body.dark .guide a{ color:#d2691e; }
 </style>
 </head>
 <body>
@@ -150,6 +150,7 @@ function generateQRCode(type){
         value = document.getElementById("text").value.trim();
         containerId = "qr-text";
         if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
+        // Տեքստը իրական QR-ում օգտագործվելու համար ուղղակի ուղարկում ենք
     } else if(type==='link'){
         value = document.getElementById("link").value.trim();
         containerId = "qr-link";
