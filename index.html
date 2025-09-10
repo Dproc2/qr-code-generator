@@ -31,7 +31,7 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
   <!-- Տեքստից QR -->
   <div class="section" style="background:linear-gradient(135deg,#8e44ad,#b795f7); color:white;">
     <h2>Տեքստից QR</h2>
-    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="6"></textarea>
+    <textarea id="text" placeholder="Տեղադրեք տեքստը..." rows="6"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
@@ -39,7 +39,7 @@ h1 { text-align:center; color:#2c3e50; margin-bottom:24px; }
   <!-- Հղումից QR -->
   <div class="section" style="background:linear-gradient(135deg,#00b894,#55efc4); color:white;">
     <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Paste link, π.χ. https://drive.google.com/..." />
+    <input type="text" id="link" placeholder="Տեղադրեք հղումը այստեղ,օր․՝  https://drive.google.com/..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
