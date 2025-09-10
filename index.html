@@ -5,54 +5,162 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Կոդ Գեներատոր</title>
 <style>
-body { font-family: "Arial", sans-serif; background:#f3f4f6; margin:0; padding:20px; }
-h1 { text-align:center; color:#2d3436; margin-bottom:30px; font-size:36px; }
-.container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
-.section { width:300px; padding:20px; border-radius:15px; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; }
-.section:hover { transform: translateY(-5px); }
-.section h2 { margin-top:0; font-size:22px; }
-.section input, .section textarea { width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:10px; box-sizing:border-box; font-size:14px; }
-.section button { padding:10px 16px; border-radius:10px; border:none; cursor:pointer; font-weight:bold; }
-.qr-container { margin-top:12px; display:flex; flex-direction:column; align-items:center; gap:6px; min-height:40px; }
-.qr-container img { max-width:100%; height:auto; display:block; }
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f4f8, #dfe6e9);
+  transition: background 0.5s, color 0.5s;
+  color: #2d3436;
+}
 
-/* Նոր գույների դիզայն */
-.section.text { background: linear-gradient(135deg, #fd79a8, #d63031); color:#fff; }
-.section.link { background: linear-gradient(135deg, #00cec9, #0984e3); color:#fff; }
-.section.image { background: linear-gradient(135deg, #ffeaa7, #fab1a0); color:#2d3436; }
+h1 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+}
 
-/* Ուղեցույցը ընդգծված */
-.guide { background:#fefefe; border:2px solid #e17055; padding:15px 20px; max-width:700px; margin:40px auto 0 auto; border-radius:12px; font-size:14px; color:#2d3436; }
-.guide h2 { color:#e17055; font-size:18px; margin-top:0; }
-.guide a { color:#0984e3; text-decoration:none; }
-.guide a:hover { text-decoration:underline; }
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
 
-.section button:hover { background: rgba(255,255,255,0.3); color:#2d3436; }
+.section {
+  width: 300px;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s, background 0.5s, color 0.5s;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+}
+
+.section h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.section input, .section textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.section button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+}
+
+.qr-container {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+}
+
+.qr-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* New gradient colors for sections */
+.section.text {
+  background: linear-gradient(135deg, #ff6b81, #ff4757);
+  color: #fff;
+}
+
+.section.link {
+  background: linear-gradient(135deg, #1dd1a1, #10ac84);
+  color: #fff;
+}
+
+.section.image {
+  background: linear-gradient(135deg, #feca57, #ff9f43);
+  color: #2d3436;
+}
+
+/* Guide section */
+.guide {
+  background: #fff;
+  border: 2px solid #ff6b81;
+  padding: 15px 20px;
+  max-width: 700px;
+  margin: 40px auto 0 auto;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #2d3436;
+  transition: background 0.5s, color 0.5s, border-color 0.5s;
+}
+
+.guide h2 {
+  color: #ff6b81;
+  font-size: 18px;
+}
+
+.guide a {
+  color: #1dd1a1;
+  text-decoration: none;
+}
+
+.guide a:hover {
+  text-decoration: underline;
+}
+
+.section button:hover {
+  background: rgba(255,255,255,0.3);
+  color: #2d3436;
+}
+
+/* Dark Theme styles */
+body.dark {
+  background: linear-gradient(135deg, #2f3640, #353b48);
+  color: #f5f6fa;
+}
+body.dark .section.text { background: linear-gradient(135deg, #c23616, #e84118); color: #fff;}
+body.dark .section.link { background: linear-gradient(135deg, #00a8ff, #0097e6); color: #fff;}
+body.dark .section.image { background: linear-gradient(135deg, #fbc531, #e1b12c); color: #2d3436;}
+body.dark .guide { background: #2f3640; color: #f5f6fa; border-color: #00a8ff; }
+body.dark .guide h2 { color: #00a8ff; }
+body.dark .guide a { color: #fbc531; }
 </style>
 </head>
 <body>
 
 <h1>QR Կոդ Գեներատոր</h1>
+<button onclick="toggleTheme()" style="margin:0 auto; display:block; margin-bottom:20px; padding:8px 16px; border-radius:8px; border:none; cursor:pointer;">Փոխել թեման</button>
 
 <div class="container">
 
-  <!-- Տեքստից QR -->
   <div class="section text">
     <h2>Տեքստից QR</h2>
-    <textarea id="text" placeholder="Մուտքագրեք տեքստը այստեղ..." rows="5"></textarea>
+    <textarea id="text" placeholder="Գրեք ձեր նյութը..." rows="5"></textarea>
     <button onclick="generateQRCode('text')">Ստեղծել QR</button>
     <div id="qr-text" class="qr-container"></div>
   </div>
 
-  <!-- Հղումից QR -->
   <div class="section link">
     <h2>Հղումից QR</h2>
-    <input type="text" id="link" placeholder="Տեղադրեք հղումը այստեղ,օր․՝ https://drive.google.com/..." />
+    <input type="text" id="link" placeholder="Paste link, π.χ. https://drive.google.com/..." />
     <button onclick="generateQRCode('link')">Ստեղծել QR</button>
     <div id="qr-link" class="qr-container"></div>
   </div>
 
-  <!-- Նկարից QR -->
   <div class="section image">
     <h2>Նկարից QR</h2>
     <input type="file" id="image" accept="image/*" />
@@ -62,7 +170,6 @@ h1 { text-align:center; color:#2d3436; margin-bottom:30px; font-size:36px; }
 
 </div>
 
-<!-- Ուղեցույց -->
 <div class="guide">
 <h2>📌 Ինչպես բեռնել ֆայլը Google Drive-ում և ստանալ հղում</h2>
 <ol>
@@ -76,6 +183,10 @@ h1 { text-align:center; color:#2d3436; margin-bottom:30px; font-size:36px; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+}
+
 function generateQRCode(type) {
   let value = "";
   let containerId = "";
@@ -92,7 +203,7 @@ function generateQRCode(type) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Տեքստի QR արդյունք</title>
         <style>
-          body{font-family:Arial,sans-serif;background:#f3f4f6;padding:20px;}
+          body{font-family:Arial,sans-serif;background:#f0f4f8;padding:20px;}
           .text-page{background:#fff;max-width:800px;margin:20px auto;padding:20px;border-radius:12px;white-space:pre-wrap;font-size:16px;}
           button{background:#00cec9;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;margin:5px;}
           button:hover{background:#0984e3;}
@@ -149,20 +260,27 @@ function generateQRCode(type) {
 }
 
 function createQR(value,containerId){
-  const qr=new QRious({value:size=300,value});
-  const container=document.getElementById(containerId);
-  container.innerHTML="";
-  const img=document.createElement("img");
-  img.src=qr.toDataURL();
-  img.alt="QR Code";
-  const downloadBtn=document.createElement("button");
-  downloadBtn.textContent="Ներբեռնել QR";
-  downloadBtn.onclick=function(){
-    const link=document.createElement("a");
-    link.href=img.src;
-    link.download="qr_code.png";
+  const qr = new QRious({
+    value: value,
+    size: 300
+  });
+
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = qr.toDataURL();
+  img.alt = "QR Code";
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.textContent = "Ներբեռնել QR";
+  downloadBtn.onclick = function(){
+    const link = document.createElement("a");
+    link.href = img.src;
+    link.download = "qr_code.png";
     link.click();
   };
+
   container.appendChild(img);
   container.appendChild(downloadBtn);
 }
