@@ -17,11 +17,11 @@ h1{
     text-align:center;
     font-size:38px;
     margin-bottom:20px;
-    border-bottom:4px solid #1e3c72;
+    border-bottom:4px solid #004080;
     display:inline-block;
     padding-bottom:12px;
     font-weight:bold;
-    color:#0b2e4a;
+    color:#003366;
 }
 h1 button{
     margin-left:15px;
@@ -43,21 +43,31 @@ h1 button:hover{ transform: scale(1.1); }
     text-align:center;
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
     transition:transform 0.3s,background 0.5s,color 0.5s;
+    background:#cce0ff; /* բաց կապույտ */
+    border: 3px solid #003366; /* մուգ կապույտ եզրագիծ */
 }
 .section:hover{ transform:translateY(-6px); }
-.section h2{ margin-top:0; font-size:24px; font-weight:bold; text-shadow:1px 1px 2px rgba(0,0,0,0.2); }
+.section h2{ margin-top:0; font-size:24px; font-weight:bold; color:#003366; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
 .section input, .section textarea{ width:100%; padding:12px; border-radius:12px; border:1px solid #ccc; margin-bottom:12px; box-sizing:border-box; font-size:15px; }
+
 .section button{
     padding:12px 18px;
     border-radius:12px;
-    border:none;
+    border:2px solid #003366; /* եզրագիծ կոճակի համար */
     cursor:pointer;
     font-weight:bold;
     transition: all 0.3s ease;
-    background: rgba(255,255,255,0.3);
+    background: #fff;
+    color:#003366;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
 }
-.section button:hover{ background:rgba(255,255,255,0.6); transform: scale(1.05); }
+.section button:hover{ 
+    background:rgba(0,51,102,0.1); 
+    transform: scale(1.05); 
+    box-shadow:0 6px 10px rgba(0,0,0,0.2);
+}
 
+/* QR կոնտեյներ սկզբում առանց եզրագծի */
 .qr-container{
     margin-top:15px;
     display:flex;
@@ -65,18 +75,21 @@ h1 button:hover{ transform: scale(1.1); }
     align-items:center;
     gap:8px;
     min-height:50px;
+    border-radius:14px;
+    padding:10px;
 }
-.qr-container img{ max-width:100%; height:auto; display:block; border-radius:14px; transition: transform 0.3s; }
-.qr-container img:hover{ transform: scale(1.05); }
 
-/* Կապույտ գրադիենտներ բաժինների համար */
-.section.text{ background:linear-gradient(135deg,#1e3c72,#2a5298); color:#fff; }
-.section.link{ background:linear-gradient(135deg,#4a90e2,#50a3f5); color:#fff; }
-.section.image{ background:linear-gradient(135deg,#00b4db,#0083b0); color:#fff; }
+/* Ցանցապատ եզրագիծը ավելացվում է միայն երբ կա QR կոդ */
+.qr-container.generated{
+    border:2px dashed #003366; 
+}
+
+.qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
+.qr-container img:hover{ transform: scale(1.05); }
 
 .guide{
     background:#fff;
-    border:3px solid #1e3c72;
+    border:3px solid #003366;
     padding:18px 22px;
     max-width:750px;
     margin:40px auto 0 auto;
@@ -85,20 +98,21 @@ h1 button:hover{ transform: scale(1.1); }
     color:#2d3436;
     transition:background 0.5s,color 0.5s,border-color 0.5s;
 }
-.guide h2{ color:#1e3c72; font-size:20px; font-weight:bold; }
-.guide a{ color:#0083b0; text-decoration:none; font-weight:bold; }
+.guide h2{ color:#003366; font-size:20px; font-weight:bold; }
+.guide a{ color:#003366; text-decoration:none; font-weight:bold; }
 .guide a:hover{ text-decoration:underline; }
 
 body.dark{
     background:linear-gradient(135deg,#2f3640,#353b48);
     color:#f5f6fa;
 }
-body.dark .section.text{ background:linear-gradient(135deg,#1e3c72,#2a5298); color:#fff; }
-body.dark .section.link{ background:linear-gradient(135deg,#4a90e2,#50a3f5); color:#fff; }
-body.dark .section.image{ background:linear-gradient(135deg,#00b4db,#0083b0); color:#fff; }
-body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4a90e2; }
-body.dark .guide h2{ color:#4a90e2; }
-body.dark .guide a{ color:#50a3f5; }
+body.dark .section{ border-color:#004080; color:#fff; }
+body.dark .section h2{ color:#fff; }
+body.dark .section button{ color:#fff; border-color:#fff; }
+body.dark .qr-container.generated{ border-color:#fff; }
+body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#004080; }
+body.dark .guide h2{ color:#fff; }
+body.dark .guide a{ color:#80b3ff; }
 </style>
 </head>
 <body>
@@ -142,17 +156,16 @@ QR Կոդ Գեներատոր
 </ol>
 </div>
 
-<!-- qrcode.js գրադարան՝ UTF-8 աջակցությամբ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-// Տեքստի QR (հայերեն ապահով UTF-8)
 function generateTextQRCode(){
     const value = document.getElementById("text").value.trim();
     if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
     const container = document.getElementById("qr-text");
     container.innerHTML = "";
+    container.classList.add('generated'); 
     new QRCode(container, {
         text: value,
         width: 300,
@@ -161,13 +174,13 @@ function generateTextQRCode(){
     });
 }
 
-// Հղումից QR
 function generateLinkQRCode(){
     let value = document.getElementById("link").value.trim();
     if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
     if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
     const container = document.getElementById("qr-link");
     container.innerHTML = "";
+    container.classList.add('generated');
     new QRCode(container, {
         text: value,
         width: 300,
@@ -176,7 +189,6 @@ function generateLinkQRCode(){
     });
 }
 
-// Նկարից QR
 function generateImageQRCode(){
     const file = document.getElementById("image").files[0];
     if(!file){ alert("Խնդրում ենք ընտրել նկար։"); return; }
@@ -184,6 +196,7 @@ function generateImageQRCode(){
     const container = document.getElementById("qr-image");
     container.innerHTML = "";
     reader.onload = function(e){
+        container.classList.add('generated');
         new QRCode(container, {
             text: e.target.result,
             width: 300,
