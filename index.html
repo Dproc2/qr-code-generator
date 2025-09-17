@@ -43,8 +43,8 @@ h1 button:hover{ transform: scale(1.1); }
     text-align:center;
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
     transition:transform 0.3s,background 0.5s,color 0.5s;
-    background:#cce0ff; /* բաց կապույտ */
-    border: 3px solid #003366; /* մուգ կապույտ եզրագիծ */
+    background:#cce0ff;
+    border: 3px solid #003366;
 }
 .section:hover{ transform:translateY(-6px); }
 .section h2{ margin-top:0; font-size:24px; font-weight:bold; color:#003366; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
@@ -53,7 +53,7 @@ h1 button:hover{ transform: scale(1.1); }
 .section button{
     padding:12px 18px;
     border-radius:12px;
-    border:2px solid #003366; /* եզրագիծ կոճակի համար */
+    border:2px solid #003366;
     cursor:pointer;
     font-weight:bold;
     transition: all 0.3s ease;
@@ -67,7 +67,6 @@ h1 button:hover{ transform: scale(1.1); }
     box-shadow:0 6px 10px rgba(0,0,0,0.2);
 }
 
-/* QR կոնտեյներ սկզբում առանց եզրագծի */
 .qr-container{
     margin-top:15px;
     display:flex;
@@ -78,14 +77,27 @@ h1 button:hover{ transform: scale(1.1); }
     border-radius:14px;
     padding:10px;
 }
-
-/* Ցանցապատ եզրագիծը ավելացվում է միայն երբ կա QR կոդ */
 .qr-container.generated{
     border:2px dashed #003366; 
 }
-
 .qr-container img{ max-width:100%; height:auto; display:block; border-radius:10px; transition: transform 0.3s; }
 .qr-container img:hover{ transform: scale(1.05); }
+
+.download-btn{
+    padding:8px 16px;
+    border-radius:10px;
+    border:2px solid #003366;
+    background:#fff;
+    color:#003366;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:8px;
+    transition: all 0.3s ease;
+}
+.download-btn:hover{
+    background:rgba(0,51,102,0.1);
+    transform: scale(1.05);
+}
 
 .guide{
     background:#fff;
@@ -160,18 +172,42 @@ QR Կոդ Գեներատոր
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-function generateTextQRCode(){
-    const value = document.getElementById("text").value.trim();
-    if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
-    const container = document.getElementById("qr-text");
+function addDownloadButton(container, img){
+    const existing = container.querySelector(".download-btn");
+    if(existing) existing.remove();
+    const btn = document.createElement("button");
+    btn.textContent = "Ներբեռնել QR";
+    btn.className = "download-btn";
+    btn.onclick = ()=> {
+        const a = document.createElement("a");
+        a.href = img.src;
+        a.download = "qr-code.png";
+        a.click();
+    };
+    container.appendChild(btn);
+}
+
+function generateQRCode(container, value){
     container.innerHTML = "";
-    container.classList.add('generated'); 
-    new QRCode(container, {
+    container.classList.add('generated');
+    const qr = new QRCode(container, {
         text: value,
         width: 300,
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
     });
+    // Սահմանված ժամանակ սպասել, քանի որ QRCodeJS-ում ստեղծումը asynchronous է
+    setTimeout(()=> {
+        const img = container.querySelector("img");
+        if(img) addDownloadButton(container, img);
+    }, 300);
+}
+
+function generateTextQRCode(){
+    const value = document.getElementById("text").value.trim();
+    if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
+    const container = document.getElementById("qr-text");
+    generateQRCode(container, value);
 }
 
 function generateLinkQRCode(){
@@ -179,14 +215,7 @@ function generateLinkQRCode(){
     if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
     if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
     const container = document.getElementById("qr-link");
-    container.innerHTML = "";
-    container.classList.add('generated');
-    new QRCode(container, {
-        text: value,
-        width: 300,
-        height: 300,
-        correctLevel: QRCode.CorrectLevel.H
-    });
+    generateQRCode(container, value);
 }
 
 function generateImageQRCode(){
@@ -194,15 +223,8 @@ function generateImageQRCode(){
     if(!file){ alert("Խնդրում ենք ընտրել նկար։"); return; }
     const reader = new FileReader();
     const container = document.getElementById("qr-image");
-    container.innerHTML = "";
     reader.onload = function(e){
-        container.classList.add('generated');
-        new QRCode(container, {
-            text: e.target.result,
-            width: 300,
-            height: 300,
-            correctLevel: QRCode.CorrectLevel.H
-        });
+        generateQRCode(container, e.target.result);
     };
     reader.readAsDataURL(file);
 }
