@@ -9,12 +9,12 @@ body {
     font-family: Arial, sans-serif;
     margin:0;
     padding:20px;
-    background: linear-gradient(135deg,#f4fbff,#e6f5ff); /* ավելի բաց ֆոն */
+    background: linear-gradient(135deg,#f4fbff,#e6f5ff);
     color:#2d3436;
     transition:background 0.5s,color 0.5s;
 }
 h1{
-    text-align:center; /* վերնագիրը կենտրոնացվեց */
+    text-align:center;
     font-size:38px;
     margin-bottom:20px;
     border-bottom:4px solid #4b0082;
@@ -115,16 +115,16 @@ h1 button:hover{ transform: scale(1.1); }
 .guide a:hover{ text-decoration:underline; }
 
 body.dark{
-    background:linear-gradient(135deg,#2f3640,#353b48);
-    color:#f5f6fa;
+    background:linear-gradient(135deg,#d6d8de,#c1c4cd);
+    color:#2d3436;
 }
-body.dark .section{ border-color:#4b0082; color:#fff; }
-body.dark .section h2{ color:#fff; }
-body.dark .section button{ color:#fff; border-color:#fff; }
-body.dark .qr-container.generated{ border-color:#fff; }
-body.dark .guide{ background:#2f3640; color:#f5f6fa; border-color:#4b0082; }
-body.dark .guide h2{ color:#fff; }
-body.dark .guide a{ color:#af7ac5; }
+body.dark .section{ border-color:#4b0082; color:#000; }
+body.dark .section h2{ color:#000; }
+body.dark .section button{ color:#000; border-color:#000; }
+body.dark .qr-container.generated{ border-color:#000; }
+body.dark .guide{ background:#d6d8de; color:#000; border-color:#4b0082; }
+body.dark .guide h2{ color:#000; }
+body.dark .guide a{ color:#6a0dad; }
 
 footer {
     text-align: right;
@@ -137,12 +137,10 @@ footer {
 </head>
 <body>
 
-<div style="text-align:center;">
-  <h1>
-    QR Կոդ Գեներատոր
-    <button onclick="toggleTheme()" title="Փոխել թեման">☀</button>
-  </h1>
-</div>
+<h1>
+QR Կոդ Գեներատոր
+<button onclick="toggleTheme()" title="Փոխել թեման">☀</button>
+</h1>
 
 <div class="container">
   <div class="section text">
@@ -184,11 +182,6 @@ footer {
 <script>
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-// base64 encode Armenian text for QR readability
-function encodeUTF8(str) {
-    return unescape(encodeURIComponent(str));
-}
-
 function addDownloadButton(container, img){
     const existing = container.querySelector(".download-btn");
     if(existing) existing.remove();
@@ -204,15 +197,21 @@ function addDownloadButton(container, img){
     container.appendChild(btn);
 }
 
+// QR կոդ ստեղծում՝ ճիշտ UTF-8 decode/encode համար
 function generateQRCode(container, value){
     container.innerHTML = "";
     container.classList.add('generated');
+
+    // Encode in UTF-8 so Armenian characters work
+    const encodedValue = unescape(encodeURIComponent(value));
+
     new QRCode(container, {
-        text: encodeUTF8(value), // Armenian support
+        text: encodedValue,
         width: 300,
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
     });
+
     setTimeout(()=> {
         const img = container.querySelector("img");
         if(img) addDownloadButton(container, img);
