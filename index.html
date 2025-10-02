@@ -9,54 +9,72 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin:0;
     padding:20px;
-    background:#f0f0f0;
+    background:#f0f0f0; /* Բաց մոխրագույն ֆոն */
     color:#333;
 }
+
 h1{
     text-align:center;
-    font-size:40px;
+    font-size:48px;
     margin-bottom:30px;
     font-weight:bold;
     color:#5C4033; /* Մուգ շոկոլադ */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
-.container{ display:flex; justify-content:center; }
+
+.container{ display:flex; justify-content:center; margin-top:20px; }
+
 .section{
-    width:400px;
+    width:420px;
     padding:25px;
     border-radius:20px;
     text-align:center;
-    box-shadow:0 8px 25px rgba(0,0,0,0.2);
-    background:#fff; 
-    border: 3px solid #5C4033; 
-    transition: transform 0.3s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    border: 2px solid #d9b38c;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-.section:hover{ transform:translateY(-5px); }
-.section h2{ margin-top:0; font-size:26px; font-weight:bold; color:#5C4033; }
+
+.section:hover{
+    transform: translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+.section h2{
+    margin-top:0;
+    font-size:26px;
+    font-weight:bold;
+    color:#5C4033;
+}
+
 .section textarea, .section input{
     width:100%;
     padding:12px;
-    border-radius:10px;
+    border-radius:12px;
     border:1px solid #ccc;
     margin-bottom:15px;
     font-size:16px;
     box-sizing:border-box;
     resize:none;
 }
+
 .section button{
     padding:12px 20px;
     border-radius:12px;
     border:none;
     cursor:pointer;
     font-weight:bold;
-    background:#5C4033;
-    color:#fff;
     font-size:16px;
+    color:#fff;
+    background: linear-gradient(135deg,#d9822b,#ff8c00);
     transition: all 0.3s ease;
 }
+
 .section button:hover{
-    background:#4B3221;
+    background: linear-gradient(135deg,#ff8c00,#d9822b);
     transform: scale(1.05);
 }
+
 .qr-container{
     margin-top:20px;
     display:flex;
@@ -64,29 +82,72 @@ h1{
     align-items:center;
     gap:10px;
     min-height:50px;
-    border-radius:12px;
-    padding:10px;
-    border:2px dashed #5C4033;
+    border-radius:16px;
+    padding:15px;
+    background: #fff;
+    border:2px dashed #d9822b;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
-.qr-container img{ max-width:100%; height:auto; border-radius:10px; }
+
+.qr-container img{
+    max-width:100%;
+    height:auto;
+    border-radius:12px;
+}
+
 .download-btn{
-    padding:8px 16px;
-    border-radius:10px;
+    padding:10px 18px;
+    border-radius:12px;
     border:none;
-    background:#5C4033;
+    background: linear-gradient(135deg,#d9822b,#ff8c00);
     color:#fff;
     cursor:pointer;
     font-weight:bold;
-    margin-top:10px;
+    margin-top:12px;
+    transition: all 0.3s ease;
 }
+
 .download-btn:hover{
-    background:#4B3221;
+    background: linear-gradient(135deg,#ff8c00,#d9822b);
+    transform: scale(1.05);
 }
+
+/* Ուղեցույց */
+.guide{
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    border:2px solid #d9822b;
+    padding:20px 25px;
+    max-width:750px;
+    margin:40px auto 0 auto;
+    border-radius:18px;
+    font-size:15px;
+    color:#333;
+    box-shadow:0 8px 25px rgba(0,0,0,0.1);
+}
+
+.guide h2{
+    color:#5C4033;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.guide a{
+    color:#d9822b;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.guide a:hover{
+    text-decoration:underline;
+}
+
 footer{
-    text-align:right;
+    text-align:center;
     margin-top:40px;
     font-weight:bold;
-    color:#5C4033;
+    color:#FF8C00;
+    font-size:14px;
 }
 </style>
 </head>
@@ -101,6 +162,17 @@ footer{
     <button onclick="generateQRCode()">Ստեղծել QR</button>
     <div id="qr" class="qr-container"></div>
   </div>
+</div>
+
+<div class="guide">
+<h2>📌 Ինչպես բեռնել ֆայլը Google Drive-ում և ստանալ հղում</h2>
+<ol>
+<li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a>։</li>
+<li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
+<li>Բեռնվելուց հետո սեղմեք աջ կոճակը ֆայլի վրա, ընտրեք <b>"Get link"</b> կամ <b>"Share"</b></li>
+<li>Փոխեք "Restricted" → "Anyone with the link"։</li>
+<li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
+</ol>
 </div>
 
 <footer>© Նախագծային աշխատանք</footer>
@@ -129,9 +201,11 @@ function generateQRCode(){
     container.innerHTML = "";
     container.classList.add('generated');
 
-    // Քանի որ QRCodeJS արդեն UTF-8 աջակցում է, ուղղակի տեքստը տեղադրում ենք
+    // Հայերեն և ցանկացած UTF-8 տառերի աջակցություն
+    const encodedValue = unescape(encodeURIComponent(value));
+
     new QRCode(container, {
-        text: value,
+        text: encodedValue,
         width: 300,
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
