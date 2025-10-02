@@ -9,7 +9,7 @@ body {
     font-family: Arial, sans-serif;
     margin:0;
     padding:20px;
-    background: linear-gradient(135deg,#f4fbff,#e6f5ff);
+    background: linear-gradient(135deg,#d0f0ff,#e0f7ff);
     color:#2d3436;
     transition:background 0.5s,color 0.5s;
 }
@@ -115,23 +115,22 @@ h1 button:hover{ transform: scale(1.1); }
 .guide a:hover{ text-decoration:underline; }
 
 body.dark{
-    background:linear-gradient(135deg,#d6d8de,#c1c4cd);
-    color:#2d3436;
+    background:linear-gradient(135deg,#bac8d3,#c8d8e4);
+    color:#1f1f1f;
 }
-body.dark .section{ border-color:#4b0082; color:#000; }
-body.dark .section h2{ color:#000; }
-body.dark .section button{ color:#000; border-color:#000; }
-body.dark .qr-container.generated{ border-color:#000; }
-body.dark .guide{ background:#d6d8de; color:#000; border-color:#4b0082; }
-body.dark .guide h2{ color:#000; }
-body.dark .guide a{ color:#6a0dad; }
+body.dark .section{ border-color:#4b0082; color:#fff; }
+body.dark .section h2{ color:#fff; }
+body.dark .section button{ color:#fff; border-color:#fff; }
+body.dark .qr-container.generated{ border-color:#fff; }
+body.dark .guide{ background:#bac8d3; color:#1f1f1f; border-color:#4b0082; }
+body.dark .guide h2{ color:#fff; }
+body.dark .guide a{ color:#af7ac5; }
 
-footer {
-    text-align: right;
-    margin-top: 30px;
-    font-size: 14px;
+footer{
+    text-align:right;
+    margin-top:30px;
+    font-size:14px;
     color:#4b0082;
-    font-weight:bold;
 }
 </style>
 </head>
@@ -139,7 +138,7 @@ footer {
 
 <h1>
 QR Կոդ Գեներատոր
-<button onclick="toggleTheme()" title="Փոխել թեման">☀</button>
+<button onclick="toggleTheme()" title="Փոխել թեման">©</button>
 </h1>
 
 <div class="container">
@@ -158,10 +157,10 @@ QR Կոդ Գեներատոր
   </div>
 
   <div class="section image">
-    <h2>Նկարից ստանալ QR կոդ</h2>
-    <input type="file" id="image" accept="image/*" />
-    <button onclick="generateImageQRCode()">Ստեղծել QR</button>
-    <div id="qr-image" class="qr-container"></div>
+    <h2>Ֆայլից/նկարից/վիդեոյից ստանալ QR կոդ</h2>
+    <input type="file" id="file" accept="image/*,video/*" />
+    <button onclick="generateFileQRCode()">Ստեղծել QR</button>
+    <div id="qr-file" class="qr-container"></div>
   </div>
 </div>
 
@@ -197,21 +196,15 @@ function addDownloadButton(container, img){
     container.appendChild(btn);
 }
 
-// QR կոդ ստեղծում՝ ճիշտ UTF-8 decode/encode համար
 function generateQRCode(container, value){
     container.innerHTML = "";
     container.classList.add('generated');
-
-    // Encode in UTF-8 so Armenian characters work
-    const encodedValue = unescape(encodeURIComponent(value));
-
     new QRCode(container, {
-        text: encodedValue,
+        text: value,
         width: 300,
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
     });
-
     setTimeout(()=> {
         const img = container.querySelector("img");
         if(img) addDownloadButton(container, img);
@@ -221,22 +214,25 @@ function generateQRCode(container, value){
 function generateTextQRCode(){
     const value = document.getElementById("text").value.trim();
     if(!value){ alert("Խնդրում ենք լրացնել տեքստը։"); return; }
-    generateQRCode(document.getElementById("qr-text"), value);
+    const container = document.getElementById("qr-text");
+    generateQRCode(container, value); // ուղղակի տեքստ, UTF-8 ապահովված
 }
 
 function generateLinkQRCode(){
     let value = document.getElementById("link").value.trim();
     if(!value){ alert("Խնդրում ենք լրացնել դաշտը։"); return; }
     if(!/^https?:\/\//i.test(value)){ value = "https://"+value; }
-    generateQRCode(document.getElementById("qr-link"), value);
+    const container = document.getElementById("qr-link");
+    generateQRCode(container, value);
 }
 
-function generateImageQRCode(){
-    const file = document.getElementById("image").files[0];
-    if(!file){ alert("Խնդրում ենք ընտրել նկար։"); return; }
+function generateFileQRCode(){
+    const file = document.getElementById("file").files[0];
+    if(!file){ alert("Խնդրում ենք ընտրել ֆայլ։"); return; }
     const reader = new FileReader();
+    const container = document.getElementById("qr-file");
     reader.onload = function(e){
-        generateQRCode(document.getElementById("qr-image"), e.target.result);
+        generateQRCode(container, e.target.result);
     };
     reader.readAsDataURL(file);
 }
