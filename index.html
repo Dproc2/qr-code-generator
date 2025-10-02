@@ -16,13 +16,13 @@ body {
 /* Վերնագիր */
 h1{
     text-align:center; /* Մեջտեղ */
-    font-size:56px; /* Մեծացնել */
-    margin-bottom:40px;
+    font-size:56px; /* Մեծ */
+    margin-bottom:50px;
     font-weight:900;
     color:#5C4033; /* Մուգ շոկոլադ */
-    background: linear-gradient(135deg, #FFD580, #FF8C00); /* Gradient */
+    background: linear-gradient(135deg, #FFD580, #FF8C00);
     display:inline-block;
-    padding:20px 40px;
+    padding:20px 50px;
     border-radius:20px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
     margin-left:auto;
@@ -33,7 +33,7 @@ h1{
 .container{ display:flex; justify-content:center; margin-top:20px; }
 
 .section{
-    width:420px;
+    width:440px;
     padding:25px;
     border-radius:20px;
     text-align:center;
@@ -148,6 +148,16 @@ h1{
     margin-bottom:10px;
 }
 
+.guide a{
+    color:#d9822b;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.guide a:hover{
+    text-decoration:underline;
+}
+
 footer{
     text-align:center;
     margin-top:40px;
@@ -171,8 +181,14 @@ footer{
 </div>
 
 <div class="guide">
-<h2>📌 Ուղեցույց</h2>
-<p>Բեռնեք ձեր ֆայլերը Google Drive-ում և ստացեք հղումը, այնուհետև տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</p>
+<h2>📌 Ինչպես բեռնել ֆայլը Google Drive-ում և ստանալ հղում</h2>
+<ol>
+<li>Բացեք <a href="https://drive.google.com" target="_blank">Google Drive</a>։</li>
+<li>Սեղմեք "New" → "File Upload" և ընտրեք ձեր ֆայլը։</li>
+<li>Բեռնվելուց հետո սեղմեք աջ կոճակը ֆայլի վրա, ընտրեք <b>"Get link"</b> կամ <b>"Share"</b></li>
+<li>Փոխեք "Restricted" → "Anyone with the link"։</li>
+<li>Պատճենեք հղումը և տեղադրեք վերևի դաշտում՝ QR ստանալու համար։</li>
+</ol>
 </div>
 
 <footer>© Նախագծային աշխատանք</footer>
@@ -201,7 +217,7 @@ function generateQRCode(){
     container.innerHTML = "";
     container.classList.add('generated');
 
-    // Հայերեն և ցանկացած UTF-8 տառերի աջակցություն
+    // Հայերեն և UTF-8 աջակցության համար
     const encodedValue = unescape(encodeURIComponent(value));
 
     new QRCode(container, {
