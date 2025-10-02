@@ -17,7 +17,7 @@ body {
 h1{
     text-align:center;
     font-size:56px;
-    margin-top:10px;   /* Բարձրացրել ենք վերևից */
+    margin-top:10px;   /* Վերին հեռավորությունը */
     margin-bottom:40px;
     font-weight:900;
     color:#5C4033;
@@ -31,7 +31,11 @@ h1{
 }
 
 /* Կոնտեյներ և բաժին */
-.container{ display:flex; justify-content:center; margin-top:20px; }
+.container{ 
+    display:flex; 
+    justify-content:center; 
+    margin-top:20px; 
+}
 
 .section{
     width:440px;
@@ -104,8 +108,8 @@ h1{
     border-radius:16px;
     padding:15px;
     background: #fff;
-    display: none; /* Սկզբում չերևա */
-    border:2px dashed #d9822b; /* Կետագծեր, երբ երևա */
+    display: none; /* Սկզբում թաքնված է */
+    border:2px dashed #d9822b; /* Կետագծերով շղթա */
     box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
@@ -221,10 +225,9 @@ function generateQRCode(){
     container.innerHTML = "";
     container.style.display = "flex"; // ցույց տալ QR կոնտեյներ
 
-    const encodedValue = unescape(encodeURIComponent(value));
-
+    // Հայերեն և UTF-8 աջակցություն ուղղակի
     new QRCode(container, {
-        text: encodedValue,
+        text: value,
         width: 300,
         height: 300,
         correctLevel: QRCode.CorrectLevel.H
